@@ -36,3 +36,35 @@ func ExampleChunk() {
 	// [[1 2] [3 4]]
 	// [[1 2 3] [4]]
 }
+
+func TestConcat(t *testing.T) {
+	tests := []struct {
+		name string
+		i    [][]int
+		o    []int
+	}{
+		{"empty1", [][]int{}, []int{}},
+		{"empty2", [][]int{{}}, []int{}},
+		{"empty3", [][]int{{}, {}}, []int{}},
+		{"t1", [][]int{{1}, {2}}, []int{1, 2}},
+		{"t2", [][]int{{1, 2}, {3}}, []int{1, 2, 3}},
+		{"t3", [][]int{{1, 2}, {3, 4}, {5}}, []int{1, 2, 3, 4, 5}},
+		{"middle empty", [][]int{{1, 2}, {}, {3, 4}, {}, {5}}, []int{1, 2, 3, 4, 5}},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			op := Concat(test.i...)
+			if !reflect.DeepEqual(op, test.o) {
+				t.Error(test.o, op)
+			}
+		})
+	}
+}
+
+func ExampleConcat() {
+	fmt.Println(Concat([]int{1, 2}, []int{3}))
+	fmt.Println(Concat([]int{1, 2}, []int{3}, []int{4, 5, 6}))
+	// Output:
+	// [1 2 3]
+	// [1 2 3 4 5 6]
+}

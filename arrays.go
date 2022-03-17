@@ -19,3 +19,14 @@ func Chunk[T any](array []T, chunkSize int) [][]T {
 	}
 	return output
 }
+
+// Concat combines all the elements from all the given arrays into a single array.
+func Concat[T any](arrays ...[]T) []T {
+	output := make([]T, 0)
+	for _, array := range arrays {
+		for _, item := range array {
+			output = append(output, item)
+		}
+	}
+	return output
+}
