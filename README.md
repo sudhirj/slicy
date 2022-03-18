@@ -66,7 +66,6 @@ DropRight returns a slice of `array` with `n` elements dropped from the end.
 ```go
 func DropRightWhile[T any](array []T, predicate func(value T, index int, array []T) bool) []T
 ```
-
 DropRightWhile creates a slice of `array` excluding elements dropped from the
 end. Elements are dropped until `predicate` returns false.
 
@@ -75,7 +74,6 @@ end. Elements are dropped until `predicate` returns false.
 ```go
 func DropWhile[T any](array []T, predicate func(value T, index int, array []T) bool) []T
 ```
-
 DropWhile creates a slice of `array` excluding elements dropped from the
 beginning. Elements are dropped until `predicate` returns false.
 
@@ -84,7 +82,6 @@ beginning. Elements are dropped until `predicate` returns false.
 ```go
 func Fill[T any](array []T, value T, start int, end int)
 ```
-
 Fill fills elements of `array` with `value` from `start` up to, but not
 including `end`.
 
@@ -93,7 +90,6 @@ including `end`.
 ```go
 func FindIndex[T any](array []T, predicate func(T) bool) int
 ```
-
 FindIndex returns the index of the first element for which the `predicate`
 returns true.
 
@@ -105,3 +101,21 @@ func FindLastIndex[T any](array []T, predicate func(T) bool) int
 
 FindLastIndex returns the index of the last element of which the `predicate`
 returns true.
+
+#### func  IndexOf
+
+```go
+func IndexOf[T comparable](array []T, value T) int
+```
+
+IndexOf returns the index at which the first occurrence of `value` is found in
+`array`.
+
+#### func  Intersection
+
+```go
+func Intersection[T comparable](array []T, others ...[]T) []T
+```
+
+Intersection returns an array of unique values that are included in all given
+arrays. The order of the result values are determined by the first array.

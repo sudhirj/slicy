@@ -132,3 +132,33 @@ func FindLastIndex[T any](array []T, predicate func(T) bool) int {
 	}
 	return -1
 }
+
+// IndexOf returns the index at which the first occurrence of `value` is found in `array`.
+func IndexOf[T comparable](array []T, value T) int {
+	for i := 0; i < len(array); i++ {
+		if value == array[i] {
+			return i
+		}
+	}
+	return -1
+}
+
+// Intersection returns an array of unique values that are included in all given arrays.
+// The order of the result values are determined by the first array.
+func Intersection[T comparable](array []T, others ...[]T) []T {
+	output := make([]T, 0)
+	for _, item := range array {
+		findCount := 0
+		for _, otherArray := range others {
+			for _, otherItem := range otherArray {
+				if item == otherItem {
+					findCount++
+				}
+			}
+		}
+		if findCount == len(others) && IndexOf(output, item) == -1 {
+			output = append(output, item)
+		}
+	}
+	return output
+}
