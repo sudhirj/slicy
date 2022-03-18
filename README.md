@@ -62,3 +62,21 @@ func DropRight[T any](array []T, n int) []T
 ```
 
 DropRight returns a slice of `array` with `n` elements dropped from the end.
+
+#### func  DropRightWhile
+
+```go
+func DropRightWhile[T any](array []T, predicate func(value T, index int, array []T) bool) []T
+```
+
+DropRightWhile creates a slice of `array` excluding elements dropped from the
+end. Elements are dropped until `predicate` returns false.
+
+#### func  DropWhile
+
+```go
+func DropWhile[T any](array []T, predicate func(value T, index int, array []T) bool) []T
+```
+
+DropWhile creates a slice of `array` excluding elements dropped from the
+beginning. Elements are dropped until `predicate` returns false.

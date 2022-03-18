@@ -138,3 +138,77 @@ func ExampleDropRight() {
 	// []
 	// [1 2 3]
 }
+
+func ExampleDropRightWhile() {
+	haystack := []string{"h1", "h2", "h3", "needle", "h4", "h5", "needle", "h6", "h7", "h8"}
+	fmt.Println(DropRightWhile(haystack, func(item string, index int, arr []string) bool { return item != "needle" }))
+	// Output:
+	// [h1 h2 h3 needle h4 h5 needle]
+}
+
+func TestDropRightWhile(t *testing.T) {
+	tests := []struct {
+		name      string
+		i         []int
+		predicate func(item int, index int, arr []int) bool
+		o         []int
+	}{
+		{"empty", []int{}, func(item int, index int, arr []int) bool {
+			return true
+		}, []int{}},
+		{"five", []int{1, 2, 3, 4, 5, 6, 7, 8, 9}, func(item int, index int, arr []int) bool {
+			return item > 5
+		}, []int{1, 2, 3, 4, 5}},
+		{"dont drop", []int{1, 2, 3, 4, 5, 6, 7, 8, 9}, func(item int, index int, arr []int) bool {
+			return item > 10
+		}, []int{1, 2, 3, 4, 5, 6, 7, 8, 9}},
+		{"drop all", []int{1, 2, 3, 4, 5, 6, 7, 8, 9}, func(item int, index int, arr []int) bool {
+			return item < 10
+		}, []int{}},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			op := DropRightWhile(test.i, test.predicate)
+			if !reflect.DeepEqual(op, test.o) {
+				t.Error(test.o, op)
+			}
+		})
+	}
+}
+
+func ExampleDropWhile() {
+	haystack := []string{"h1", "h2", "h3", "needle", "h4", "h5", "needle", "h6", "h7", "h8"}
+	fmt.Println(DropWhile(haystack, func(item string, index int, arr []string) bool { return item != "needle" }))
+	// Output:
+	// [needle h4 h5 needle h6 h7 h8]
+}
+
+func TestDropWhile(t *testing.T) {
+	tests := []struct {
+		name      string
+		i         []int
+		predicate func(item int, index int, arr []int) bool
+		o         []int
+	}{
+		{"empty", []int{}, func(item int, index int, arr []int) bool {
+			return true
+		}, []int{}},
+		{"five", []int{1, 2, 3, 4, 5, 6, 7, 8, 9}, func(item int, index int, arr []int) bool {
+			return item < 5
+		}, []int{5, 6, 7, 8, 9}},
+		{"dont drop", []int{1, 2, 3, 4, 5, 6, 7, 8, 9}, func(item int, index int, arr []int) bool {
+			return item > 10
+		}, []int{1, 2, 3, 4, 5, 6, 7, 8, 9}},
+		{"drop all", []int{1, 2, 3, 4, 5, 6, 7, 8, 9}, func(item int, index int, arr []int) bool {
+			return item < 10
+		}, []int{}},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			op := DropWhile(test.i, test.predicate)
+			if !reflect.DeepEqual(op, test.o) {
+				t.Error(test.o, op)
+			}
+		})
+	}
+}
