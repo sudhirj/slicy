@@ -63,3 +63,11 @@ func DifferenceWith[T any](array []T, comparator func(T, T) bool, others ...[]T)
 	}
 	return output
 }
+
+// Drop returns a slice of `array` with `n` elements dropped from the beginning.
+func Drop[T any](array []T, n int) []T {
+	if n > len(array) {
+		n = len(array)
+	}
+	return array[n:]
+}

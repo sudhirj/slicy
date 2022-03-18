@@ -114,3 +114,15 @@ func ExampleDifferenceWith() {
 	// Output:
 	// [map[b:2]]
 }
+
+func ExampleDrop() {
+	fmt.Println(Drop([]int{1, 2, 3}, 1))
+	fmt.Println(Drop([]int{1, 2, 3}, 2))
+	fmt.Println(Drop([]int{1, 2, 3}, 5))
+	fmt.Println(Drop([]int{1, 2, 3}, 0))
+	// Output:
+	// [2 3]
+	// [3]
+	// []
+	// [1 2 3]
+}
