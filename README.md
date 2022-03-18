@@ -1,5 +1,5 @@
 # godash
-
+--
     import "github.com/sudhirj/godash"
 
 
@@ -52,7 +52,6 @@ in any of the `others` arrays, with the comparison made using the given
 ```go
 func Drop[T any](array []T, n int) []T
 ```
-
 Drop returns a slice of `array` with `n` elements dropped from the beginning.
 
 #### func  DropRight
@@ -60,7 +59,6 @@ Drop returns a slice of `array` with `n` elements dropped from the beginning.
 ```go
 func DropRight[T any](array []T, n int) []T
 ```
-
 DropRight returns a slice of `array` with `n` elements dropped from the end.
 
 #### func  DropRightWhile
@@ -80,3 +78,30 @@ func DropWhile[T any](array []T, predicate func(value T, index int, array []T) b
 
 DropWhile creates a slice of `array` excluding elements dropped from the
 beginning. Elements are dropped until `predicate` returns false.
+
+#### func  Fill
+
+```go
+func Fill[T any](array []T, value T, start int, end int)
+```
+
+Fill fills elements of `array` with `value` from `start` up to, but not
+including `end`.
+
+#### func  FindIndex
+
+```go
+func FindIndex[T any](array []T, predicate func(T) bool) int
+```
+
+FindIndex returns the index of the first element for which the `predicate`
+returns true.
+
+#### func  FindLastIndex
+
+```go
+func FindLastIndex[T any](array []T, predicate func(T) bool) int
+```
+
+FindLastIndex returns the index of the last element of which the `predicate`
+returns true.

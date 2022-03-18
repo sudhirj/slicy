@@ -212,3 +212,35 @@ func TestDropWhile(t *testing.T) {
 		})
 	}
 }
+
+func ExampleFill() {
+	array := []string{"a", "b", "c", "d"}
+	Fill(array, "*", 1, 3)
+	fmt.Println(array)
+	// Output:
+	// [a * * d]
+}
+
+func ExampleFindIndex() {
+	fmt.Println(FindIndex([]string{"a", "b", "c", "d"}, func(t string) bool { return t == "x" }))
+	fmt.Println(FindIndex([]string{"a", "b", "c", "d"}, func(t string) bool { return t == "a" }))
+	fmt.Println(FindIndex([]string{"a", "b", "c", "d"}, func(t string) bool { return t == "d" }))
+	fmt.Println(FindIndex([]string{"a", "a", "b", "b"}, func(t string) bool { return t == "b" }))
+	// Output:
+	// -1
+	// 0
+	// 3
+	// 2
+}
+
+func ExampleFindLastIndex() {
+	fmt.Println(FindLastIndex([]string{"a", "b", "c", "d"}, func(t string) bool { return t == "x" }))
+	fmt.Println(FindLastIndex([]string{"a", "b", "c", "d"}, func(t string) bool { return t == "a" }))
+	fmt.Println(FindLastIndex([]string{"a", "b", "c", "d"}, func(t string) bool { return t == "d" }))
+	fmt.Println(FindLastIndex([]string{"a", "a", "b", "b"}, func(t string) bool { return t == "a" }))
+	// Output:
+	// -1
+	// 0
+	// 3
+	// 1
+}

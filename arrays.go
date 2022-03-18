@@ -105,3 +105,30 @@ func DropWhile[T any](array []T, predicate func(value T, index int, array []T) b
 	}
 	return array[i:]
 }
+
+// Fill fills elements of `array` with `value` from `start` up to, but not including `end`.
+func Fill[T any](array []T, value T, start int, end int) {
+	for i := start; i < end; i++ {
+		array[i] = value
+	}
+}
+
+// FindIndex returns the index of the first element for which the `predicate` returns true.
+func FindIndex[T any](array []T, predicate func(T) bool) int {
+	for i := 0; i < len(array); i++ {
+		if predicate(array[i]) {
+			return i
+		}
+	}
+	return -1
+}
+
+// FindLastIndex returns the index of the last element of which the `predicate` returns true.
+func FindLastIndex[T any](array []T, predicate func(T) bool) int {
+	for i := len(array) - 1; i >= 0; i-- {
+		if predicate(array[i]) {
+			return i
+		}
+	}
+	return -1
+}
