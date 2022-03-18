@@ -2,6 +2,7 @@ package godash
 
 import (
 	"fmt"
+	"math"
 	"reflect"
 	"testing"
 )
@@ -96,4 +97,12 @@ func ExampleDifference() {
 	// Output:
 	// [1]
 	// [3 4]
+}
+
+func ExampleDifferenceBy() {
+	fmt.Println(DifferenceBy([]float64{2.1, 1.2}, math.Floor, []float64{2.3, 3.4}))
+	fmt.Println(DifferenceBy([]float64{-2, -1, 0, 1, 2}, math.Abs, []float64{1}, []float64{-2}))
+	// Output:
+	// [1.2]
+	// [0]
 }

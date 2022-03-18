@@ -1,5 +1,5 @@
 # godash
-
+--
     import "github.com/sudhirj/godash"
 
 
@@ -30,3 +30,9 @@ func Difference[T comparable](array []T, others ...[]T) []T
 
 Difference returns a list of items present in `array` that are *not* present in any of the `others` arrays. The
 comparison is performed with `==`.
+
+#### func  DifferenceBy
+
+```go
+func DifferenceBy[T any, U comparable](array []T, iteratee func(T) U, others ...[]T) []T
+```

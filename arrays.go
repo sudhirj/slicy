@@ -51,3 +51,22 @@ func Difference[T comparable](array []T, others ...[]T) []T {
 	}
 	return output
 }
+
+func DifferenceBy[T any, U comparable](array []T, iteratee func(T) U, others ...[]T) []T {
+	output := make([]T, 0)
+	for _, item := range array {
+		found := false
+		// TODO switch to a set to avoid quadratic complexity
+		for _, otherArray := range others {
+			for _, otherItem := range otherArray {
+				if iteratee(item) == iteratee(otherItem) {
+					found = true
+				}
+			}
+		}
+		if !found {
+			output = append(output, item)
+		}
+	}
+	return output
+}
