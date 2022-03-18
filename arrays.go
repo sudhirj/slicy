@@ -30,3 +30,24 @@ func Concat[T any](arrays ...[]T) []T {
 	}
 	return output
 }
+
+// Difference returns a list of items present in `array` that are *not* present in any of
+// the `others` arrays. The comparison is performed with `==`.
+func Difference[T comparable](array []T, others ...[]T) []T {
+	output := make([]T, 0)
+	for _, item := range array {
+		found := false
+		// TODO switch to a set to avoid quadratic complexity
+		for _, otherArray := range others {
+			for _, otherItem := range otherArray {
+				if item == otherItem {
+					found = true
+				}
+			}
+		}
+		if !found {
+			output = append(output, item)
+		}
+	}
+	return output
+}

@@ -2,6 +2,7 @@
 
     import "github.com/sudhirj/godash"
 
+
 ## Usage
 
 #### func  Chunk
@@ -20,3 +21,12 @@ func Concat[T any](arrays ...[]T) []T
 ```
 
 Concat combines all the elements from all the given arrays into a single array.
+
+#### func  Difference
+
+```go
+func Difference[T comparable](array []T, others ...[]T) []T
+```
+
+Difference returns a list of items present in `array` that are *not* present in any of the `others` arrays. The
+comparison is performed with `==`.

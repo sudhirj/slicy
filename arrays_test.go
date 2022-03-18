@@ -68,3 +68,32 @@ func ExampleConcat() {
 	// [1 2 3]
 	// [1 2 3 4 5 6]
 }
+
+func TestDifference(t *testing.T) {
+	tests := []struct {
+		name   string
+		array  []int
+		others [][]int
+		o      []int
+	}{
+		{"empty", []int{}, [][]int{}, []int{}},
+		{"t1", []int{2, 1}, [][]int{{2, 3}}, []int{1}},
+		{"t2", []int{2, 1, 4, 5}, [][]int{{2, 3}, {4, 6}}, []int{1, 5}},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			op := Difference(test.array, test.others...)
+			if !reflect.DeepEqual(op, test.o) {
+				t.Error(test.o, op)
+			}
+		})
+	}
+}
+
+func ExampleDifference() {
+	fmt.Println(Difference([]int{2, 1}, []int{2, 3}))
+	fmt.Println(Difference([]int{1, 2, 3, 4, 5, 6, 7}, []int{0, 1, 2}, []int{5, 6, 7, 8}))
+	// Output:
+	// [1]
+	// [3 4]
+}
