@@ -257,14 +257,12 @@ func ExampleIndexOf() {
 
 func ExampleIntersection() {
 	fmt.Println(Intersection([]int{2, 1}, []int{2, 3}))
-	fmt.Println(Intersection([]int{}, []int{}))
-	fmt.Println(Intersection([]int{}, []int{3, 4}))
 	fmt.Println(Intersection([]int{2, 1}, []int{2, 3}, []int{8, 2}))
 	fmt.Println(Intersection([]int{2, 1, 2, 2, 1}, []int{1, 2, 3}, []int{8, 1, 2}))
+	fmt.Println(Intersection([]int{}, []int{}))
 	// Output:
 	// [2]
-	// []
-	// []
 	// [2]
 	// [2 1]
+	// []
 }

@@ -1,5 +1,5 @@
 # godash
---
+
     import "github.com/sudhirj/godash"
 
 
@@ -98,7 +98,6 @@ returns true.
 ```go
 func FindLastIndex[T any](array []T, predicate func(T) bool) int
 ```
-
 FindLastIndex returns the index of the last element of which the `predicate`
 returns true.
 
@@ -107,7 +106,6 @@ returns true.
 ```go
 func IndexOf[T comparable](array []T, value T) int
 ```
-
 IndexOf returns the index at which the first occurrence of `value` is found in
 `array`.
 
@@ -116,6 +114,5 @@ IndexOf returns the index at which the first occurrence of `value` is found in
 ```go
 func Intersection[T comparable](array []T, others ...[]T) []T
 ```
-
 Intersection returns an array of unique values that are included in all given
 arrays. The order of the result values are determined by the first array.
