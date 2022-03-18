@@ -34,42 +34,14 @@ func Concat[T any](arrays ...[]T) []T {
 // Difference returns a list of items present in `array` that are *not* present in any of
 // the `others` arrays. The comparison is performed with `==`.
 func Difference[T comparable](array []T, others ...[]T) []T {
-	output := make([]T, 0)
-	for _, item := range array {
-		found := false
-		for _, otherArray := range others {
-			for _, otherItem := range otherArray {
-				if item == otherItem {
-					found = true
-				}
-			}
-		}
-		if !found {
-			output = append(output, item)
-		}
-	}
-	return output
+	return DifferenceWith(array, func(x, y T) bool { return x == y }, others...)
 }
 
 // DifferenceBy returns a list of items present in `array` that are *not* present in any of
 // the `others` arrays, with the comparison made by passing items into the `iteratee` function
 // and checking `==` on the result. This allows changing the way the item is viewed for comparison.
 func DifferenceBy[T any, U comparable](array []T, iteratee func(T) U, others ...[]T) []T {
-	output := make([]T, 0)
-	for _, item := range array {
-		found := false
-		for _, otherArray := range others {
-			for _, otherItem := range otherArray {
-				if iteratee(item) == iteratee(otherItem) {
-					found = true
-				}
-			}
-		}
-		if !found {
-			output = append(output, item)
-		}
-	}
-	return output
+	return DifferenceWith(array, func(x, y T) bool { return iteratee(x) == iteratee(y) }, others...)
 }
 
 // DifferenceWith returns a list of items present in `array` that are *not* present in any of

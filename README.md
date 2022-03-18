@@ -1,5 +1,5 @@
 # godash
---
+
     import "github.com/sudhirj/godash"
 
 
@@ -25,7 +25,6 @@ Concat combines all the elements from all the given arrays into a single array.
 ```go
 func Difference[T comparable](array []T, others ...[]T) []T
 ```
-
 Difference returns a list of items present in `array` that are *not* present in
 any of the `others` arrays. The comparison is performed with `==`.
 
@@ -34,7 +33,6 @@ any of the `others` arrays. The comparison is performed with `==`.
 ```go
 func DifferenceBy[T any, U comparable](array []T, iteratee func(T) U, others ...[]T) []T
 ```
-
 DifferenceBy returns a list of items present in `array` that are *not* present
 in any of the `others` arrays, with the comparison made by passing items into
 the `iteratee` function and checking `==` on the result. This allows changing
@@ -45,7 +43,6 @@ the way the item is viewed for comparison.
 ```go
 func DifferenceWith[T any](array []T, comparator func(T, T) bool, others ...[]T) []T
 ```
-
 DifferenceWith returns a list of items present in `array` that are *not* present
 in any of the `others` arrays, with the comparison made using the given
 `comparator`.
