@@ -10,8 +10,8 @@
 ```go
 func Chunk[T any](array []T, chunkSize int) [][]T
 ```
-Chunk splits the given array into groups the length of `chunkSize`. If the array cannot be split evenly, the last chunk
-will have the remaining elements.
+Chunk splits the given array into groups the length of `chunkSize`. If the array
+cannot be split evenly, the last chunk will have the remaining elements.
 
 #### func  Concat
 
@@ -26,8 +26,8 @@ Concat combines all the elements from all the given arrays into a single array.
 func Difference[T comparable](array []T, others ...[]T) []T
 ```
 
-Difference returns a list of items present in `array` that are *not* present in any of the `others` arrays. The
-comparison is performed with `==`.
+Difference returns a list of items present in `array` that are *not* present in
+any of the `others` arrays. The comparison is performed with `==`.
 
 #### func  DifferenceBy
 
@@ -35,6 +35,17 @@ comparison is performed with `==`.
 func DifferenceBy[T any, U comparable](array []T, iteratee func(T) U, others ...[]T) []T
 ```
 
-DifferenceBy returns a list of items present in `array` that are *not* present in any of the `others` arrays, with the
-comparison made by passing items into the `iteratee` function and checking `==` on the result. This allows changing the
-way the item is viewed for comparison.
+DifferenceBy returns a list of items present in `array` that are *not* present
+in any of the `others` arrays, with the comparison made by passing items into
+the `iteratee` function and checking `==` on the result. This allows changing
+the way the item is viewed for comparison.
+
+#### func  DifferenceWith
+
+```go
+func DifferenceWith[T any](array []T, comparator func(T, T) bool, others ...[]T) []T
+```
+
+DifferenceWith returns a list of items present in `array` that are *not* present
+in any of the `others` arrays, with the comparison made using the given
+`comparator`.

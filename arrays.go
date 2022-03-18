@@ -37,7 +37,6 @@ func Difference[T comparable](array []T, others ...[]T) []T {
 	output := make([]T, 0)
 	for _, item := range array {
 		found := false
-		// TODO switch to a set to avoid quadratic complexity
 		for _, otherArray := range others {
 			for _, otherItem := range otherArray {
 				if item == otherItem {
@@ -59,10 +58,29 @@ func DifferenceBy[T any, U comparable](array []T, iteratee func(T) U, others ...
 	output := make([]T, 0)
 	for _, item := range array {
 		found := false
-		// TODO switch to a set to avoid quadratic complexity
 		for _, otherArray := range others {
 			for _, otherItem := range otherArray {
 				if iteratee(item) == iteratee(otherItem) {
+					found = true
+				}
+			}
+		}
+		if !found {
+			output = append(output, item)
+		}
+	}
+	return output
+}
+
+// DifferenceWith returns a list of items present in `array` that are *not* present in any of
+// the `others` arrays, with the comparison made using the given `comparator`.
+func DifferenceWith[T any](array []T, comparator func(T, T) bool, others ...[]T) []T {
+	output := make([]T, 0)
+	for _, item := range array {
+		found := false
+		for _, otherArray := range others {
+			for _, otherItem := range otherArray {
+				if comparator(item, otherItem) {
 					found = true
 				}
 			}

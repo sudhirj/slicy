@@ -106,3 +106,11 @@ func ExampleDifferenceBy() {
 	// [1.2]
 	// [0]
 }
+
+func ExampleDifferenceWith() {
+	array := []map[string]int{{"a": 1}, {"b": 2}}
+	others := []map[string]int{{"a": 1}}
+	fmt.Println(DifferenceWith(array, func(x, y map[string]int) bool { return reflect.DeepEqual(x, y) }, others))
+	// Output:
+	// [map[b:2]]
+}
