@@ -43,7 +43,6 @@ the way the item is viewed for comparison.
 ```go
 func DifferenceWith[T any](array []T, comparator func(T, T) bool, others ...[]T) []T
 ```
-
 DifferenceWith returns a list of items present in `array` that are *not* present
 in any of the `others` arrays, with the comparison made using the given
 `comparator`.
@@ -55,3 +54,11 @@ func Drop[T any](array []T, n int) []T
 ```
 
 Drop returns a slice of `array` with `n` elements dropped from the beginning.
+
+#### func  DropRight
+
+```go
+func DropRight[T any](array []T, n int) []T
+```
+
+DropRight returns a slice of `array` with `n` elements dropped from the end.

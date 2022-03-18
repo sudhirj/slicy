@@ -71,3 +71,11 @@ func Drop[T any](array []T, n int) []T {
 	}
 	return array[n:]
 }
+
+// DropRight returns a slice of `array` with `n` elements dropped from the end.
+func DropRight[T any](array []T, n int) []T {
+	if n > len(array) {
+		n = len(array)
+	}
+	return array[:len(array)-n]
+}

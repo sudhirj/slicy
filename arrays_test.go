@@ -126,3 +126,15 @@ func ExampleDrop() {
 	// []
 	// [1 2 3]
 }
+
+func ExampleDropRight() {
+	fmt.Println(DropRight([]int{1, 2, 3}, 1))
+	fmt.Println(DropRight([]int{1, 2, 3}, 2))
+	fmt.Println(DropRight([]int{1, 2, 3}, 5))
+	fmt.Println(DropRight([]int{1, 2, 3}, 0))
+	// Output:
+	// [1 2]
+	// [1]
+	// []
+	// [1 2 3]
+}
