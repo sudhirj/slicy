@@ -52,6 +52,9 @@ func Difference[T comparable](array []T, others ...[]T) []T {
 	return output
 }
 
+// DifferenceBy returns a list of items present in `array` that are *not* present in any of
+// the `others` arrays, with the comparison made by passing items into the `iteratee` function
+// and checking `==` on the result. This allows changing the way the item is viewed for comparison.
 func DifferenceBy[T any, U comparable](array []T, iteratee func(T) U, others ...[]T) []T {
 	output := make([]T, 0)
 	for _, item := range array {
