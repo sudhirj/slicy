@@ -302,3 +302,15 @@ func ExampleLastIndexOf() {
 	// 0
 	// 2
 }
+
+func ExampleNth() {
+	fmt.Println(Nth([]string{"a", "b", "c", "d"}, 1))
+	fmt.Println(Nth([]string{"a", "b", "c", "d"}, -2))
+	fmt.Println(Nth([]string{"a", "b", "c", "d"}, 0))
+	fmt.Println(Nth([]string{"a", "b", "c", "d"}, -1))
+	// Output:
+	// b
+	// c
+	// a
+	// d
+}

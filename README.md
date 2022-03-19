@@ -140,7 +140,6 @@ of the result values are determined by the first array.
 ```go
 func Join[T any](array []T, separator string) string
 ```
-
 Join concatenates all the elements of the array into a string separated by
 `separator`. `fmt.Sprint` is used for to get the string representation of the
 given value, so mixed types are possible with `[]any`.
@@ -153,3 +152,12 @@ func LastIndexOf[T comparable](array []T, value T) int
 
 LastIndexOf returns the index at which the last occurrence of `value` is found
 in `array`. Returns `-1` if not found.
+
+#### func  Nth
+
+```go
+func Nth[T any](array []T, n int) T
+```
+
+Nth gets the element at index `n` of the `array`. If `n` is negative, the nth
+element from the end is returned.

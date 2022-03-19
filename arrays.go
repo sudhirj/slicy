@@ -202,3 +202,12 @@ func LastIndexOf[T comparable](array []T, value T) int {
 	}
 	return -1
 }
+
+// Nth gets the element at index `n` of the `array`. If `n` is negative, the nth element
+// from the end is returned.
+func Nth[T any](array []T, n int) T {
+	if n < 0 {
+		n = len(array) + n
+	}
+	return array[n]
+}
