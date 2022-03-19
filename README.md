@@ -107,7 +107,7 @@ returns true.
 func IndexOf[T comparable](array []T, value T) int
 ```
 IndexOf returns the index at which the first occurrence of `value` is found in
-`array`.
+`array`. Returns `-1` if not found.
 
 #### func  Intersection
 
@@ -131,7 +131,6 @@ order of the result values are determined by the first array.
 ```go
 func IntersectionWith[T comparable](array []T, comparator func(T, T) bool, others ...[]T) []T
 ```
-
 IntersectionWith returns an array of unique values that are included in all
 given arrays, with comparison happening inside the given `comparator`. The order
 of the result values are determined by the first array.
@@ -145,3 +144,12 @@ func Join[T any](array []T, separator string) string
 Join concatenates all the elements of the array into a string separated by
 `separator`. `fmt.Sprint` is used for to get the string representation of the
 given value, so mixed types are possible with `[]any`.
+
+#### func  LastIndexOf
+
+```go
+func LastIndexOf[T comparable](array []T, value T) int
+```
+
+LastIndexOf returns the index at which the last occurrence of `value` is found
+in `array`. Returns `-1` if not found.

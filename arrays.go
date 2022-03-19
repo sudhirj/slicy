@@ -136,6 +136,7 @@ func FindLastIndex[T any](array []T, predicate func(T) bool) int {
 }
 
 // IndexOf returns the index at which the first occurrence of `value` is found in `array`.
+// Returns `-1` if not found.
 func IndexOf[T comparable](array []T, value T) int {
 	for i := 0; i < len(array); i++ {
 		if value == array[i] {
@@ -189,4 +190,15 @@ func Join[T any](array []T, separator string) string {
 		stringList[i] = fmt.Sprint(e)
 	}
 	return strings.Join(stringList, separator)
+}
+
+// LastIndexOf returns the index at which the last occurrence of `value` is found in `array`.
+// Returns `-1` if not found.
+func LastIndexOf[T comparable](array []T, value T) int {
+	for i := len(array) - 1; i >= 0; i-- {
+		if value == array[i] {
+			return i
+		}
+	}
+	return -1
 }

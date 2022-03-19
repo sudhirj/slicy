@@ -292,3 +292,13 @@ func ExampleJoin() {
 	// 2022/1/1
 	// 1-January-2022
 }
+
+func ExampleLastIndexOf() {
+	fmt.Println(LastIndexOf([]string{"a", "b", "c"}, "x"))
+	fmt.Println(LastIndexOf([]string{"a", "b", "c"}, "a"))
+	fmt.Println(LastIndexOf([]string{"a", "b", "b", "c"}, "b"))
+	// Output:
+	// -1
+	// 0
+	// 2
+}
