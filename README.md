@@ -114,5 +114,26 @@ IndexOf returns the index at which the first occurrence of `value` is found in
 ```go
 func Intersection[T comparable](array []T, others ...[]T) []T
 ```
+
 Intersection returns an array of unique values that are included in all given
 arrays. The order of the result values are determined by the first array.
+
+#### func  IntersectionBy
+
+```go
+func IntersectionBy[T comparable, U comparable](array []T, iteratee func(T) U, others ...[]T) []T
+```
+
+IntersectionBy returns an array of unique values that are included in all given
+arrays, with comparison happening on the result of the `iteratee` function. The
+order of the result values are determined by the first array.
+
+#### func  IntersectionWith
+
+```go
+func IntersectionWith[T comparable](array []T, comparator func(T, T) bool, others ...[]T) []T
+```
+
+IntersectionWith returns an array of unique values that are included in all
+given arrays, with comparison happening inside the given `comparator`. The order
+of the result values are determined by the first array.

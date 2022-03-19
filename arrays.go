@@ -146,17 +146,32 @@ func IndexOf[T comparable](array []T, value T) int {
 // Intersection returns an array of unique values that are included in all given arrays.
 // The order of the result values are determined by the first array.
 func Intersection[T comparable](array []T, others ...[]T) []T {
+	return IntersectionWith(array, func(x, y T) bool { return x == y }, others...)
+}
+
+// IntersectionBy returns an array of unique values that are included in all given arrays,
+// with comparison happening on the result of the `iteratee` function. The order of the result
+// values are determined by the first array.
+func IntersectionBy[T comparable, U comparable](array []T, iteratee func(T) U, others ...[]T) []T {
+	return IntersectionWith(array, func(x, y T) bool { return iteratee(x) == iteratee(y) }, others...)
+}
+
+// IntersectionWith returns an array of unique values that are included in all given arrays,
+// with comparison happening inside the given `comparator`. The order of the result values
+// are determined by the first array.
+func IntersectionWith[T comparable](array []T, comparator func(T, T) bool, others ...[]T) []T {
 	output := make([]T, 0)
 	for _, item := range array {
 		findCount := 0
 		for _, otherArray := range others {
 			for _, otherItem := range otherArray {
-				if item == otherItem {
+				if comparator(item, otherItem) {
 					findCount++
+					break
 				}
 			}
 		}
-		if findCount == len(others) && IndexOf(output, item) == -1 {
+		if findCount == len(others) && FindIndex(output, func(e T) bool { return comparator(e, item) }) == -1 {
 			output = append(output, item)
 		}
 	}

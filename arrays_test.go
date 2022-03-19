@@ -258,11 +258,27 @@ func ExampleIndexOf() {
 func ExampleIntersection() {
 	fmt.Println(Intersection([]int{2, 1}, []int{2, 3}))
 	fmt.Println(Intersection([]int{2, 1}, []int{2, 3}, []int{8, 2}))
-	fmt.Println(Intersection([]int{2, 1, 2, 2, 1}, []int{1, 2, 3}, []int{8, 1, 2}))
+	fmt.Println(Intersection([]int{2, 1, 2, 2, 1}, []int{1, 2, 3, 2}, []int{8, 1, 2, 2}))
 	fmt.Println(Intersection([]int{}, []int{}))
 	// Output:
 	// [2]
 	// [2]
 	// [2 1]
 	// []
+}
+
+func ExampleIntersectionBy() {
+	fmt.Println(IntersectionBy([]float64{2.1, 1.2}, math.Floor, []float64{2.3, 3.4}))
+	fmt.Println(IntersectionBy([]float64{2.1, 1.2, 2.4}, math.Floor, []float64{2.3, 3.4}))
+	// Output:
+	// [2.1]
+	// [2.1]
+}
+
+func ExampleIntersectionWith() {
+	fmt.Println(IntersectionWith([]float64{2.1, 1.2}, func(x, y float64) bool { return math.Floor(x) == math.Floor(y) }, []float64{2.3, 3.4}))
+	fmt.Println(IntersectionWith([]float64{2.1, 1.2, 2.4}, func(x, y float64) bool { return math.Floor(x) == math.Floor(y) }, []float64{2.3, 3.4}))
+	// Output:
+	// [2.1]
+	// [2.1]
 }
