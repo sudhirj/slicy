@@ -114,7 +114,6 @@ IndexOf returns the index at which the first occurrence of `value` is found in
 ```go
 func Intersection[T comparable](array []T, others ...[]T) []T
 ```
-
 Intersection returns an array of unique values that are included in all given
 arrays. The order of the result values are determined by the first array.
 
@@ -123,7 +122,6 @@ arrays. The order of the result values are determined by the first array.
 ```go
 func IntersectionBy[T comparable, U comparable](array []T, iteratee func(T) U, others ...[]T) []T
 ```
-
 IntersectionBy returns an array of unique values that are included in all given
 arrays, with comparison happening on the result of the `iteratee` function. The
 order of the result values are determined by the first array.
@@ -137,3 +135,13 @@ func IntersectionWith[T comparable](array []T, comparator func(T, T) bool, other
 IntersectionWith returns an array of unique values that are included in all
 given arrays, with comparison happening inside the given `comparator`. The order
 of the result values are determined by the first array.
+
+#### func  Join
+
+```go
+func Join[T any](array []T, separator string) string
+```
+
+Join concatenates all the elements of the array into a string separated by
+`separator`. `fmt.Sprint` is used for to get the string representation of the
+given value, so mixed types are possible with `[]any`.

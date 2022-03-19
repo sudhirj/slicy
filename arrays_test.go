@@ -282,3 +282,13 @@ func ExampleIntersectionWith() {
 	// [2.1]
 	// [2.1]
 }
+
+func ExampleJoin() {
+	fmt.Println(Join([]string{"Hello", "World"}, " "))
+	fmt.Println(Join([]int{2022, 1, 1}, "/"))
+	fmt.Println(Join([]any{1, "January", 2022}, "-"))
+	// Output:
+	// Hello World
+	// 2022/1/1
+	// 1-January-2022
+}

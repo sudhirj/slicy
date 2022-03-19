@@ -1,7 +1,9 @@
 package godash
 
 import (
+	"fmt"
 	"math"
+	"strings"
 )
 
 // Chunk splits the given array into groups the length of `chunkSize`.
@@ -176,4 +178,15 @@ func IntersectionWith[T comparable](array []T, comparator func(T, T) bool, other
 		}
 	}
 	return output
+}
+
+// Join concatenates all the elements of the array into a string separated by `separator`.
+// `fmt.Sprint` is used for to get the string representation of the given value, so mixed types
+// are possible with `[]any`.
+func Join[T any](array []T, separator string) string {
+	stringList := make([]string, len(array))
+	for i, e := range array {
+		stringList[i] = fmt.Sprint(e)
+	}
+	return strings.Join(stringList, separator)
 }
