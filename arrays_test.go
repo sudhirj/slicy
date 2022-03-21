@@ -374,3 +374,13 @@ func ExampleRemove() {
 	// [a b c d e f g]
 	// [b d f]
 }
+
+func ExampleReverse() {
+	array := []int{1, 2, 3, 4, 5}
+	fmt.Println(array)
+	fmt.Println(Reverse(array))
+	// Output:
+	// [1 2 3 4 5]
+	// [5 4 3 2 1]
+
+}

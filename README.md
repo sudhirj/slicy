@@ -157,7 +157,6 @@ in `array`. Returns `-1` if not found.
 ```go
 func Nth[T any](array []T, n int) T
 ```
-
 Nth gets the element at index `n` of the `array`. If `n` is negative, the nth
 element from the end is returned.
 
@@ -166,7 +165,6 @@ element from the end is returned.
 ```go
 func Pull[T comparable](array []T, values ...T) []T
 ```
-
 Pull returns a slice of `array` without all the given `values`.
 
 #### func  PullAll
@@ -174,7 +172,6 @@ Pull returns a slice of `array` without all the given `values`.
 ```go
 func PullAll[T comparable](array []T, values []T) []T
 ```
-
 PullAll returns a slice of `array` without the items in `values`.
 
 #### func  PullAllBy
@@ -182,7 +179,6 @@ PullAll returns a slice of `array` without the items in `values`.
 ```go
 func PullAllBy[T any, U comparable](array []T, values []T, iteratee func(T) U) []T
 ```
-
 PullAllBy returns a slice of `array` without the items in `values`, with the
 comparison made by passing both values through the `iteratee` function.
 
@@ -191,7 +187,6 @@ comparison made by passing both values through the `iteratee` function.
 ```go
 func PullAllWith[T any](array []T, values []T, comparator func(T, T) bool) []T
 ```
-
 PullAllWith returns a slice of `array` without the items in `values`, with the
 comparison made using the given `comparator`.
 
@@ -211,3 +206,12 @@ func Remove[T any](array []T, predicate func(value T, index int, array []T) bool
 
 Remove returns a slice of `array` without the elements for which the `predicate`
 returns `true`.
+
+#### func  Reverse
+
+```go
+func Reverse[T any](array []T) []T
+```
+
+Reverse return the reverse of `array`: with the first element last, the second
+element second-to-last, and so on.

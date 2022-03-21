@@ -262,3 +262,12 @@ func Remove[T any](array []T, predicate func(value T, index int, array []T) bool
 	}
 	return output
 }
+
+// Reverse return the reverse of `array`: with the first element last, the second element second-to-last, and so on.
+func Reverse[T any](array []T) []T {
+	output := make([]T, len(array))
+	for i := range array {
+		output[len(array)-1-i] = array[i]
+	}
+	return output
+}
