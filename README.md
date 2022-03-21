@@ -149,7 +149,6 @@ given value, so mixed types are possible with `[]any`.
 ```go
 func LastIndexOf[T comparable](array []T, value T) int
 ```
-
 LastIndexOf returns the index at which the last occurrence of `value` is found
 in `array`. Returns `-1` if not found.
 
@@ -161,3 +160,54 @@ func Nth[T any](array []T, n int) T
 
 Nth gets the element at index `n` of the `array`. If `n` is negative, the nth
 element from the end is returned.
+
+#### func  Pull
+
+```go
+func Pull[T comparable](array []T, values ...T) []T
+```
+
+Pull returns a slice of `array` without all the given `values`.
+
+#### func  PullAll
+
+```go
+func PullAll[T comparable](array []T, values []T) []T
+```
+
+PullAll returns a slice of `array` without the items in `values`.
+
+#### func  PullAllBy
+
+```go
+func PullAllBy[T any, U comparable](array []T, values []T, iteratee func(T) U) []T
+```
+
+PullAllBy returns a slice of `array` without the items in `values`, with the
+comparison made by passing both values through the `iteratee` function.
+
+#### func  PullAllWith
+
+```go
+func PullAllWith[T any](array []T, values []T, comparator func(T, T) bool) []T
+```
+
+PullAllWith returns a slice of `array` without the items in `values`, with the
+comparison made using the given `comparator`.
+
+#### func  PullAt
+
+```go
+func PullAt[T comparable](array []T, indexes ...int) []T
+```
+
+PullAt returns a slice of `array` without the items at the given indexes.
+
+#### func  Remove
+
+```go
+func Remove[T any](array []T, predicate func(value T, index int, array []T) bool) []T
+```
+
+Remove returns a slice of `array` without the elements for which the `predicate`
+returns `true`.

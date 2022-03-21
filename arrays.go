@@ -211,3 +211,54 @@ func Nth[T any](array []T, n int) T {
 	}
 	return array[n]
 }
+
+// Pull returns a slice of `array` without all the given `values`.
+func Pull[T comparable](array []T, values ...T) []T {
+	return PullAll(array, values)
+}
+
+// PullAll returns a slice of `array` without the items in `values`.
+func PullAll[T comparable](array []T, values []T) []T {
+	return PullAllWith(array, values, func(x, y T) bool { return x == y })
+}
+
+// PullAllBy returns a slice of `array` without the items in `values`, with the
+// comparison made by passing both values through the `iteratee` function.
+func PullAllBy[T any, U comparable](array []T, values []T, iteratee func(T) U) []T {
+	return PullAllWith(array, values, func(x, y T) bool { return iteratee(x) == iteratee(y) })
+}
+
+// PullAllWith returns a slice of `array` without the items in `values`, with the
+// comparison made using the given `comparator`.
+func PullAllWith[T any](array []T, values []T, comparator func(T, T) bool) []T {
+	output := make([]T, 0, len(array)-len(values))
+	for _, v := range array {
+		if FindIndex(values, func(x T) bool { return comparator(x, v) }) == -1 {
+			output = append(output, v)
+		}
+	}
+	return output
+}
+
+// PullAt returns a slice of `array` without the items at the given indexes.
+func PullAt[T comparable](array []T, indexes ...int) []T {
+	output := make([]T, 0, len(array)-len(indexes))
+	for i := range array {
+		if IndexOf(indexes, i) == -1 {
+			output = append(output, array[i])
+		}
+	}
+	return output
+}
+
+// Remove returns a slice of `array` without the elements for which the `predicate`
+// returns `true`.
+func Remove[T any](array []T, predicate func(value T, index int, array []T) bool) []T {
+	output := make([]T, 0)
+	for i := range array {
+		if !predicate(array[i], i, array) {
+			output = append(output, array[i])
+		}
+	}
+	return output
+}

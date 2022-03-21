@@ -314,3 +314,63 @@ func ExampleNth() {
 	// a
 	// d
 }
+
+func ExamplePull() {
+	array := []string{"a", "b", "c", "d", "e", "f", "g"}
+	fmt.Println(array)
+	fmt.Println(Pull(array, "a", "g"))
+	fmt.Println(Pull(array, []string{"c"}...))
+	fmt.Println(Pull(array))
+	// Output:
+	// [a b c d e f g]
+	// [b c d e f]
+	// [a b d e f g]
+	// [a b c d e f g]
+}
+
+func ExamplePullAll() {
+	array := []string{"a", "b", "c", "d", "e", "f", "g"}
+	fmt.Println(array)
+	fmt.Println(PullAll(array, []string{"a", "g"}))
+	fmt.Println(PullAll(array, []string{"c"}))
+	fmt.Println(PullAll(array, []string{}))
+	// Output:
+	// [a b c d e f g]
+	// [b c d e f]
+	// [a b d e f g]
+	// [a b c d e f g]
+}
+
+func ExamplePullAllBy() {
+	fmt.Println(PullAllBy([]float64{1.2, 2.5, 3.14, 4.2}, []float64{3.8}, math.Floor))
+	// Output:
+	// [1.2 2.5 4.2]
+}
+
+func ExamplePullAllWith() {
+	fmt.Println(PullAllWith([]float64{1.2, 2.5, 3.14, 4.2}, []float64{3.8}, func(x, y float64) bool { return math.Floor(x) == math.Floor(y) }))
+	// Output:
+	// [1.2 2.5 4.2]
+}
+
+func ExamplePullAt() {
+	array := []string{"a", "b", "c", "d", "e", "f", "g"}
+	fmt.Println(PullAt(array))
+	fmt.Println(PullAt(array, 0, 1))
+	fmt.Println(PullAt(array, []int{0, 2, 4, 6, 8, 10, 12}...))
+	// Output:
+	// [a b c d e f g]
+	// [c d e f g]
+	// [b d f]
+}
+
+func ExampleRemove() {
+	array := []string{"a", "b", "c", "d", "e", "f", "g"}
+	fmt.Println(array)
+	fmt.Println(Remove(array, func(v string, i int, arr []string) bool {
+		return i%2 == 0
+	}))
+	// Output:
+	// [a b c d e f g]
+	// [b d f]
+}
