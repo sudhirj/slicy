@@ -1,4 +1,4 @@
 go get github.com/robertkrimen/godocdown/godocdown
 go install github.com/robertkrimen/godocdown/godocdown
-godocdown github.com/sudhirj/godash > README.md
+godocdown github.com/sudhirj/slicy > README.md
 go mod tidy

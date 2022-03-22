@@ -1,4 +1,4 @@
-# godash
+# slicy
 
     import "github.com/sudhirj/slicy"
 
@@ -195,7 +195,6 @@ comparison made using the given `comparator`.
 ```go
 func PullAt[T comparable](array []T, indexes ...int) []T
 ```
-
 PullAt returns a slice of `array` without the items at the given indexes.
 
 #### func  Remove
@@ -203,7 +202,6 @@ PullAt returns a slice of `array` without the items at the given indexes.
 ```go
 func Remove[T any](array []T, predicate func(value T, index int, array []T) bool) []T
 ```
-
 Remove returns a slice of `array` without the elements for which the `predicate`
 returns `true`.
 
@@ -212,6 +210,5 @@ returns `true`.
 ```go
 func Reverse[T any](array []T) []T
 ```
-
 Reverse return the reverse of `array`: with the first element last, the second
 element second-to-last, and so on.
