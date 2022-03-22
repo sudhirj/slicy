@@ -1,6 +1,6 @@
 # godash
 
-    import "github.com/sudhirj/godash"
+    import "github.com/sudhirj/slicy"
 
 
 ## Usage

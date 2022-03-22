@@ -1,4 +1,4 @@
-package godash
+package slicy
 
 import (
 	"fmt"

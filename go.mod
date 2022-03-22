@@ -1,3 +1,3 @@
-module github.com/sudhirj/godash
+module github.com/sudhirj/slicy
 
 go 1.18
