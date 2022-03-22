@@ -1,5 +1,5 @@
 # slicy
-
+--
     import "github.com/sudhirj/slicy"
 
 
@@ -202,6 +202,7 @@ PullAt returns a slice of `array` without the items at the given indexes.
 ```go
 func Remove[T any](array []T, predicate func(value T, index int, array []T) bool) []T
 ```
+
 Remove returns a slice of `array` without the elements for which the `predicate`
 returns `true`.
 
@@ -210,5 +211,34 @@ returns `true`.
 ```go
 func Reverse[T any](array []T) []T
 ```
+
 Reverse return the reverse of `array`: with the first element last, the second
 element second-to-last, and so on.
+
+#### func  SortedIndex
+
+```go
+func SortedIndex[T constraints.Ordered](array []T, value T) int
+```
+
+SortedIndex uses a binary search to determine the lowest index at which `value`
+should be inserted into `array` in order to maintain its sort order.
+
+#### func  SortedIndexBy
+
+```go
+func SortedIndexBy[T any, U constraints.Ordered](array []T, value T, iteratee func(T) U) int
+```
+
+SortedIndexBy uses a binary search to determine the lowest index at which
+`value` should be inserted into `array` in order to maintain its sort order,
+with the `iteratee` function used to computed sort ranking.
+
+#### func  SortedIndexOf
+
+```go
+func SortedIndexOf[T constraints.Ordered](array []T, value T) int
+```
+
+SortedIndexOf performs a binary search on a sorted `array` to find the given
+`value`. Returns -1 if not found.

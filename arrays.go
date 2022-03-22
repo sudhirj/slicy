@@ -2,6 +2,8 @@ package slicy
 
 import (
 	"fmt"
+	"golang.org/x/exp/constraints"
+	"golang.org/x/exp/slices"
 	"math"
 	"strings"
 )
@@ -270,4 +272,25 @@ func Reverse[T any](array []T) []T {
 		output[len(array)-1-i] = array[i]
 	}
 	return output
+}
+
+// SortedIndex uses a binary search to determine the lowest index at which `value` should be inserted into
+// `array` in order to maintain its sort order.
+func SortedIndex[T constraints.Ordered](array []T, value T) int {
+	return slices.BinarySearch(array, value)
+}
+
+// SortedIndexBy uses a binary search to determine the lowest index at which `value` should be inserted into
+// `array` in order to maintain its sort order, with the `iteratee` function used to computed sort ranking.
+func SortedIndexBy[T any, U constraints.Ordered](array []T, value T, iteratee func(T) U) int {
+	return slices.BinarySearchFunc(array, func(e T) bool { return iteratee(e) > iteratee(value) })
+}
+
+// SortedIndexOf performs a binary search on a sorted `array` to find the given `value`. Returns -1 if not found.
+func SortedIndexOf[T constraints.Ordered](array []T, value T) int {
+	k := slices.BinarySearch(array, value)
+	if k >= len(array) || array[k] != value {
+		return -1
+	}
+	return k
 }

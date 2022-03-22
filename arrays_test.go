@@ -382,5 +382,26 @@ func ExampleReverse() {
 	// Output:
 	// [1 2 3 4 5]
 	// [5 4 3 2 1]
+}
 
+func ExampleSortedIndex() {
+	fmt.Println(SortedIndex([]int{30, 50}, 40))
+	// Output:
+	// 1
+}
+
+func ExampleSortedIndexBy() {
+	fmt.Println(SortedIndexBy([]float64{1, -2, -4, 5, -6, 7}, 3, math.Abs))
+	// Output:
+	// 2
+}
+
+func ExampleSortedIndexOf() {
+	fmt.Println(SortedIndexOf([]int{4, 5, 5, 5, 6}, 5))
+	fmt.Println(SortedIndexOf([]int{4, 5, 5, 5, 6}, 0))
+	fmt.Println(SortedIndexOf([]int{4, 5, 5, 5, 6}, 42))
+	// Output:
+	// 1
+	// -1
+	// -1
 }
