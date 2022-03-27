@@ -386,8 +386,10 @@ func ExampleReverse() {
 
 func ExampleSortedIndex() {
 	fmt.Println(SortedIndex([]int{30, 50}, 40))
+	fmt.Println(SortedIndex([]int{5, 5}, 5))
 	// Output:
 	// 1
+	// 0
 }
 
 func ExampleSortedIndexBy() {
@@ -404,4 +406,16 @@ func ExampleSortedIndexOf() {
 	// 1
 	// -1
 	// -1
+}
+
+func ExampleSortedLastIndex() {
+	fmt.Println(SortedLastIndex([]int{4, 5, 5, 5, 6}, 5))
+	fmt.Println(SortedLastIndex([]int{4, 5, 5, 5, 6}, 42))
+	fmt.Println(SortedLastIndex([]int{4, 5, 5, 5, 6}, 0))
+	fmt.Println(SortedLastIndex([]int{4, 5, 5, 5}, 5))
+	// Output:
+	// 4
+	// 5
+	// 0
+	// 4
 }

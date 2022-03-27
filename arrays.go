@@ -28,9 +28,7 @@ func Chunk[T any](array []T, chunkSize int) [][]T {
 func Concat[T any](arrays ...[]T) []T {
 	output := make([]T, 0)
 	for _, array := range arrays {
-		for _, item := range array {
-			output = append(output, item)
-		}
+		output = append(output, array...)
 	}
 	return output
 }
@@ -293,4 +291,15 @@ func SortedIndexOf[T constraints.Ordered](array []T, value T) int {
 		return -1
 	}
 	return k
+}
+
+// SortedLastIndex returns the highest index at which `value` should be inserted into the sorted `array` to maintain
+// its sort order
+func SortedLastIndex[T constraints.Ordered](array []T, value T) int {
+	i := SortedIndex(array, value)
+	// we now want the next index that has a bigger value in the remaining sub-slice
+	j := slices.BinarySearchFunc(array[i:], func(v T) bool {
+		return v > value
+	})
+	return i + j
 }
