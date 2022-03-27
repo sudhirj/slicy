@@ -281,7 +281,7 @@ func SortedIndex[T constraints.Ordered](array []T, value T) int {
 // SortedIndexBy uses a binary search to determine the lowest index at which `value` should be inserted into
 // `array` in order to maintain its sort order, with the `iteratee` function used to computed sort ranking.
 func SortedIndexBy[T any, U constraints.Ordered](array []T, value T, iteratee func(T) U) int {
-	return slices.BinarySearchFunc(array, func(e T) bool { return iteratee(e) > iteratee(value) })
+	return slices.BinarySearchFunc(array, func(e T) bool { return iteratee(e) >= iteratee(value) })
 }
 
 // SortedIndexOf performs a binary search on a sorted `array` to find the given `value`. Returns -1 if not found.
@@ -294,7 +294,7 @@ func SortedIndexOf[T constraints.Ordered](array []T, value T) int {
 }
 
 // SortedLastIndex returns the highest index at which `value` should be inserted into the sorted `array` to maintain
-// its sort order
+// its sort order.
 func SortedLastIndex[T constraints.Ordered](array []T, value T) int {
 	i := SortedIndex(array, value)
 	// we now want the next index that has a bigger value in the remaining sub-slice
@@ -302,4 +302,55 @@ func SortedLastIndex[T constraints.Ordered](array []T, value T) int {
 		return v > value
 	})
 	return i + j
+}
+
+// SortedLastIndexBy returns the highest index at which `value` should be inserted into the sorted `array` to maintain
+// its sort order, with comparisons made on the result of passing all values through `iteratee`.
+func SortedLastIndexBy[T any, U constraints.Ordered](array []T, value T, iteratee func(T) U) int {
+	i := SortedIndexBy(array, value, iteratee)
+	j := slices.BinarySearchFunc(array[i:], func(v T) bool {
+		return iteratee(v) > iteratee(value)
+	})
+	return i + j
+}
+
+// SortedLastIndexOf returns the highest index at which the `value` is present in the sorted `array`.
+func SortedLastIndexOf[T constraints.Ordered](array []T, value T) int {
+	i := SortedIndexOf(array, value)
+	if i == -1 {
+		return i
+	}
+	j := slices.BinarySearchFunc(array[i:], func(v T) bool {
+		return v > value
+	})
+	return i + j - 1
+}
+
+// Take returns a slice of `array` with `n` elements taken from the beginning.
+func Take[T any](array []T, n int) []T {
+	if n > len(array) {
+		n = len(array)
+	}
+	return array[:n]
+}
+
+// TakeRight returns a slice of `array` with `n` elements taken from the end.
+func TakeRight[T any](array []T, n int) []T {
+	if n > len(array) {
+		n = len(array)
+	}
+	return array[len(array)-n:]
+}
+
+// TakeRightWhile create a slice of elements taken from the end of `array`.
+// Elements are taken until the `predicate` returns false.
+func TakeRightWhile[T any](array []T, predicate func(value T, index int, array []T) bool) []T {
+	i := len(array) - 1
+	for i >= 0 {
+		if !predicate(array[i], i, array) {
+			break
+		}
+		i--
+	}
+	return array[i+1:]
 }

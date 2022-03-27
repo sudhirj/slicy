@@ -142,8 +142,10 @@ func ExampleDropRight() {
 func ExampleDropRightWhile() {
 	haystack := []string{"h1", "h2", "h3", "needle", "h4", "h5", "needle", "h6", "h7", "h8"}
 	fmt.Println(DropRightWhile(haystack, func(item string, index int, arr []string) bool { return item != "needle" }))
+	fmt.Println(DropRightWhile([]string{}, func(item string, index int, arr []string) bool { return item != "needle" }))
 	// Output:
 	// [h1 h2 h3 needle h4 h5 needle]
+	// []
 }
 
 func TestDropRightWhile(t *testing.T) {
@@ -394,8 +396,10 @@ func ExampleSortedIndex() {
 
 func ExampleSortedIndexBy() {
 	fmt.Println(SortedIndexBy([]float64{1, -2, -4, 5, -6, 7}, 3, math.Abs))
+	fmt.Println(SortedIndexBy([]float64{1, -2, -4, 5, -5, 5, -6, 7}, 5, math.Abs))
 	// Output:
 	// 2
+	// 3
 }
 
 func ExampleSortedIndexOf() {
@@ -418,4 +422,55 @@ func ExampleSortedLastIndex() {
 	// 5
 	// 0
 	// 4
+}
+
+func ExampleSortedLastIndexBy() {
+	fmt.Println(SortedLastIndexBy([]float64{1, -2, -4, 5, -5, 5, -5, -6, 7}, 5, math.Abs))
+	// Output:
+	// 7
+}
+
+func ExampleSortedLastIndexOf() {
+	fmt.Println(SortedLastIndexOf([]int{4, 5, 5, 5, 6}, 5))
+	fmt.Println(SortedLastIndexOf([]int{4, 5, 5, 5, 6}, 42))
+	fmt.Println(SortedLastIndexOf([]int{5}, 5))
+	fmt.Println(SortedLastIndexOf([]int{}, 42))
+	// Output:
+	// 3
+	// -1
+	// 0
+	// -1
+}
+
+func ExampleTake() {
+	fmt.Println(Take([]int{1, 2, 3}, 1))
+	fmt.Println(Take([]int{1, 2, 3}, 2))
+	fmt.Println(Take([]int{1, 2, 3}, 5))
+	fmt.Println(Take([]int{1, 2, 3}, 0))
+	// Output:
+	// [1]
+	// [1 2]
+	// [1 2 3]
+	// []
+}
+
+func ExampleTakeRight() {
+	fmt.Println(TakeRight([]int{1, 2, 3}, 1))
+	fmt.Println(TakeRight([]int{1, 2, 3}, 2))
+	fmt.Println(TakeRight([]int{1, 2, 3}, 5))
+	fmt.Println(TakeRight([]int{1, 2, 3}, 0))
+	// Output:
+	// [3]
+	// [2 3]
+	// [1 2 3]
+	// []
+}
+
+func ExampleTakeRightWhile() {
+	haystack := []string{"h1", "h2", "h3", "needle", "h4", "h5", "needle", "h6", "h7", "h8"}
+	fmt.Println(TakeRightWhile(haystack, func(item string, index int, arr []string) bool { return item != "needle" }))
+	fmt.Println(TakeRightWhile([]string{}, func(item string, index int, arr []string) bool { return item != "needle" }))
+	// Output:
+	// [h6 h7 h8]
+	// []
 }
