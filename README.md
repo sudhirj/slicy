@@ -1,5 +1,5 @@
 # slicy
-
+--
     import "github.com/sudhirj/slicy"
 
 
@@ -235,7 +235,6 @@ with the `iteratee` function used to computed sort ranking.
 ```go
 func SortedIndexOf[T constraints.Ordered](array []T, value T) int
 ```
-
 SortedIndexOf performs a binary search on a sorted `array` to find the given
 `value`. Returns -1 if not found.
 
@@ -244,7 +243,6 @@ SortedIndexOf performs a binary search on a sorted `array` to find the given
 ```go
 func SortedLastIndex[T constraints.Ordered](array []T, value T) int
 ```
-
 SortedLastIndex returns the highest index at which `value` should be inserted
 into the sorted `array` to maintain its sort order.
 
@@ -253,7 +251,6 @@ into the sorted `array` to maintain its sort order.
 ```go
 func SortedLastIndexBy[T any, U constraints.Ordered](array []T, value T, iteratee func(T) U) int
 ```
-
 SortedLastIndexBy returns the highest index at which `value` should be inserted
 into the sorted `array` to maintain its sort order, with comparisons made on the
 result of passing all values through `iteratee`.
@@ -263,7 +260,6 @@ result of passing all values through `iteratee`.
 ```go
 func SortedLastIndexOf[T constraints.Ordered](array []T, value T) int
 ```
-
 SortedLastIndexOf returns the highest index at which the `value` is present in
 the sorted `array`.
 
@@ -272,7 +268,6 @@ the sorted `array`.
 ```go
 func Take[T any](array []T, n int) []T
 ```
-
 Take returns a slice of `array` with `n` elements taken from the beginning.
 
 #### func  TakeRight
@@ -289,5 +284,14 @@ TakeRight returns a slice of `array` with `n` elements taken from the end.
 func TakeRightWhile[T any](array []T, predicate func(value T, index int, array []T) bool) []T
 ```
 
-TakeRightWhile create a slice of elements taken from the end of `array`.
+TakeRightWhile creates a slice of elements taken from the end of `array`.
+Elements are taken until the `predicate` returns false.
+
+#### func  TakeWhile
+
+```go
+func TakeWhile[T any](array []T, predicate func(value T, index int, array []T) bool) []T
+```
+
+TakeWhile creates a slice of elements taken from the beginning of `array`.
 Elements are taken until the `predicate` returns false.
