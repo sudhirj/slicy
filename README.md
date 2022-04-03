@@ -1,5 +1,5 @@
 # slicy
---
+
     import "github.com/sudhirj/slicy"
 
 
@@ -275,7 +275,6 @@ Take returns a slice of `array` with `n` elements taken from the beginning.
 ```go
 func TakeRight[T any](array []T, n int) []T
 ```
-
 TakeRight returns a slice of `array` with `n` elements taken from the end.
 
 #### func  TakeRightWhile
@@ -283,7 +282,6 @@ TakeRight returns a slice of `array` with `n` elements taken from the end.
 ```go
 func TakeRightWhile[T any](array []T, predicate func(value T, index int, array []T) bool) []T
 ```
-
 TakeRightWhile creates a slice of elements taken from the end of `array`.
 Elements are taken until the `predicate` returns false.
 
@@ -295,3 +293,59 @@ func TakeWhile[T any](array []T, predicate func(value T, index int, array []T) b
 
 TakeWhile creates a slice of elements taken from the beginning of `array`.
 Elements are taken until the `predicate` returns false.
+
+#### func  Union
+
+```go
+func Union[T comparable](arrays ...[]T) []T
+```
+
+Union creates a new slice, in order, of unique values of all the given arrays.
+Uses `==` for equality checks.
+
+#### func  UnionBy
+
+```go
+func UnionBy[T any, U comparable](iteratee func(T) U, arrays ...[]T) []T
+```
+
+UnionBy creates a new slice, in order, of unique values of all the given arrays.
+Uses the result of the given `iteratee` to check equality.
+
+#### func  UnionWith
+
+```go
+func UnionWith[T any](comparator func(T, T) bool, arrays ...[]T) []T
+```
+
+UnionWith creates a new slice, in order, of unique values of all the given
+arrays. Uses the given `comparator` to check equality between elements.
+
+#### func  Uniq
+
+```go
+func Uniq[T comparable](array []T) []T
+```
+
+Uniq returns a new slice, in order, with no duplicates, with only the first
+occurrence of each element kept. Comparison is performed with `==`.
+
+#### func  UniqBy
+
+```go
+func UniqBy[T any, U comparable](iteratee func(T) U, array []T) []T
+```
+
+UniqBy returns a new slice, in order, with no duplicates, with only the first
+occurrence of each element kept. Comparison is performed with `==` on the result
+of passing each element through the given `iteratee`.
+
+#### func  UniqWith
+
+```go
+func UniqWith[T any](comparator func(T, T) bool, array []T) []T
+```
+
+UniqWith returns a new slice, in order, with no duplicates, with only the first
+occurrence of each element kept. Comparison is performed using the given
+`comparator`.

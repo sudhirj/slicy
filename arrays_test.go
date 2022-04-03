@@ -487,3 +487,41 @@ func ExampleTakeWhile() {
 	// [h1 h2 h3 needle h4 h5 needle h6 h7 h8]
 	// []
 }
+
+func ExampleUnion() {
+	fmt.Println(Union([]int{2}, []int{1, 2}))
+	fmt.Println(Union([]int{2}, []int{1, 2}, []int{}, []int{2, 4, 6}))
+	// Output:
+	// [2 1]
+	// [2 1 4 6]
+}
+
+func ExampleUnionBy() {
+	fmt.Println(UnionBy(math.Floor, []float64{2.3}, []float64{1.2, 2.7}))
+	// Output:
+	// [2.3 1.2]
+}
+
+func ExampleUnionWith() {
+	fmt.Println(UnionWith(func(a, b float64) bool { return math.Floor(a) == math.Floor(b) }, []float64{2.3}, []float64{1.2, 2.7}))
+	// Output:
+	// [2.3 1.2]
+}
+
+func ExampleUniq() {
+	fmt.Println(Uniq([]int{2, 1, 2}))
+	// Output:
+	// [2 1]
+}
+
+func ExampleUniqBy() {
+	fmt.Println(UniqBy(math.Floor, []float64{2.3, 1.5, 2.6}))
+	// Output:
+	// [2.3 1.5]
+}
+
+func ExampleUniqWith() {
+	fmt.Println(UniqWith(func(a, b float64) bool { return math.Floor(a) == math.Floor(b) }, []float64{2.3, 1.5, 2.6}))
+	// Output:
+	// [2.3 1.5]
+}

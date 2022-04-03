@@ -367,3 +367,46 @@ func TakeWhile[T any](array []T, predicate func(value T, index int, array []T) b
 	}
 	return array[:i]
 }
+
+// Union creates a new slice, in order, of unique values of all the given arrays. Uses `==` for equality checks.
+func Union[T comparable](arrays ...[]T) []T {
+	return UnionWith(func(a, b T) bool { return a == b }, arrays...)
+}
+
+// UnionBy creates a new slice, in order, of unique values of all the given arrays.
+// Uses the result of the given `iteratee` to check equality.
+func UnionBy[T any, U comparable](iteratee func(T) U, arrays ...[]T) []T {
+	return UnionWith(func(a, b T) bool { return iteratee(a) == iteratee(b) }, arrays...)
+}
+
+// UnionWith creates a new slice, in order, of unique values of all the given arrays.
+// Uses the given `comparator` to check equality between elements.
+func UnionWith[T any](comparator func(T, T) bool, arrays ...[]T) []T {
+	output := make([]T, 0)
+	for _, array := range arrays {
+		for _, e := range array {
+			if slices.IndexFunc(output, func(v T) bool { return comparator(e, v) }) == -1 {
+				output = append(output, e)
+			}
+		}
+	}
+	return output
+}
+
+// Uniq returns a new slice, in order, with no duplicates, with only the first occurrence of each element kept.
+// Comparison is performed with `==`.
+func Uniq[T comparable](array []T) []T {
+	return Union(array)
+}
+
+// UniqBy returns a new slice, in order, with no duplicates, with only the first occurrence of each element kept.
+// Comparison is performed with `==` on the result of passing each element through the given `iteratee`.
+func UniqBy[T any, U comparable](iteratee func(T) U, array []T) []T {
+	return UnionBy(iteratee, array)
+}
+
+// UniqWith returns a new slice, in order, with no duplicates, with only the first occurrence of each element kept.
+// Comparison is performed using the given `comparator`.
+func UniqWith[T any](comparator func(T, T) bool, array []T) []T {
+	return UnionWith(comparator, array)
+}
