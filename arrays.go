@@ -342,7 +342,7 @@ func TakeRight[T any](array []T, n int) []T {
 	return array[len(array)-n:]
 }
 
-// TakeRightWhile create a slice of elements taken from the end of `array`.
+// TakeRightWhile creates a slice of elements taken from the end of `array`.
 // Elements are taken until the `predicate` returns false.
 func TakeRightWhile[T any](array []T, predicate func(value T, index int, array []T) bool) []T {
 	i := len(array) - 1
@@ -353,4 +353,17 @@ func TakeRightWhile[T any](array []T, predicate func(value T, index int, array [
 		i--
 	}
 	return array[i+1:]
+}
+
+// TakeWhile creates a slice of elements taken from the beginning of `array`.
+// Elements are taken until the `predicate` returns false.
+func TakeWhile[T any](array []T, predicate func(value T, index int, array []T) bool) []T {
+	i := 0
+	for i < len(array) {
+		if !predicate(array[i], i, array) {
+			break
+		}
+		i++
+	}
+	return array[:i]
 }

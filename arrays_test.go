@@ -469,8 +469,21 @@ func ExampleTakeRight() {
 func ExampleTakeRightWhile() {
 	haystack := []string{"h1", "h2", "h3", "needle", "h4", "h5", "needle", "h6", "h7", "h8"}
 	fmt.Println(TakeRightWhile(haystack, func(item string, index int, arr []string) bool { return item != "needle" }))
+	fmt.Println(TakeRightWhile(haystack, func(item string, index int, arr []string) bool { return item != "42" }))
 	fmt.Println(TakeRightWhile([]string{}, func(item string, index int, arr []string) bool { return item != "needle" }))
 	// Output:
 	// [h6 h7 h8]
+	// [h1 h2 h3 needle h4 h5 needle h6 h7 h8]
+	// []
+}
+
+func ExampleTakeWhile() {
+	haystack := []string{"h1", "h2", "h3", "needle", "h4", "h5", "needle", "h6", "h7", "h8"}
+	fmt.Println(TakeWhile(haystack, func(item string, index int, arr []string) bool { return item != "needle" }))
+	fmt.Println(TakeWhile(haystack, func(item string, index int, arr []string) bool { return item != "42" }))
+	fmt.Println(TakeWhile([]string{}, func(item string, index int, arr []string) bool { return item != "needle" }))
+	// Output:
+	// [h1 h2 h3]
+	// [h1 h2 h3 needle h4 h5 needle h6 h7 h8]
 	// []
 }
