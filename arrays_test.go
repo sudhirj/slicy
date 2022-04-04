@@ -551,3 +551,35 @@ func ExampleXorWith() {
 	// Output:
 	// [1.2 3.4]
 }
+
+func ExampleCountBy() {
+	fmt.Println(CountBy([]float64{6.1, 4.2, 6.3}, math.Floor))
+	// Output:
+	// map[4:1 6:2]
+}
+
+func ExampleEach() {
+	Each([]int{1, 2, 3}, func(v int, index int, arr []int) { fmt.Println(v) })
+	// Output:
+	// 1
+	// 2
+	// 3
+}
+
+func ExampleEachRight() {
+	EachRight([]int{1, 2, 3}, func(v int, index int, arr []int) { fmt.Println(v) })
+	// Output:
+	// 3
+	// 2
+	// 1
+}
+
+func ExampleEvery() {
+	fmt.Println(Every([]int{2, 4, 6, 8}, func(v int, index int, arr []int) bool { return v%2 == 0 }))
+	fmt.Println(Every([]int{}, func(v int, index int, arr []int) bool { return v%2 == 0 }))
+	fmt.Println(Every([]int{1, 2}, func(v int, index int, arr []int) bool { return v%2 == 0 }))
+	// Output:
+	// true
+	// true
+	// false
+}

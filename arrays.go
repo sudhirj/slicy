@@ -453,3 +453,39 @@ func XorWith[T any](comparator func(T, T) bool, arrays ...[]T) []T {
 	}
 	return output
 }
+
+// CountBy creates an object composed of keys generated from the results of running each element
+// of the collection through `iteratee`. The corresponding value of each key is the number
+// of times the key was returned by `iteratee`.
+func CountBy[T any, U comparable](array []T, iteratee func(T) U) map[U]int {
+	output := make(map[U]int)
+	for _, item := range array {
+		output[iteratee(item)]++
+	}
+	return output
+}
+
+// Each invokes the given `iteratee` for every element in the collection, from left to right.
+func Each[T any](array []T, iteratee func(value T, index int, array []T)) {
+	for i, v := range array {
+		iteratee(v, i, array)
+	}
+}
+
+// EachRight invokes the given `iteratee` for every element in the collection, from right to left.
+func EachRight[T any](array []T, iteratee func(value T, index int, array []T)) {
+	for i := len(array) - 1; i >= 0; i-- {
+		iteratee(array[i], i, array)
+	}
+}
+
+// Every returns true if the given `predicate` returns true for every element of the given
+// collection.
+func Every[T any](array []T, predicate func(value T, index int, array []T) bool) bool {
+	for i, item := range array {
+		if !predicate(item, i, array) {
+			return false
+		}
+	}
+	return true
+}
