@@ -525,3 +525,11 @@ func ExampleUniqWith() {
 	// Output:
 	// [2.3 1.5]
 }
+
+func ExampleWithout() {
+	fmt.Println(Without([]int{2, 1, 2, 3}, 1, 2))
+	fmt.Println(Without([]int{}))
+	// Output:
+	// [3]
+	// []
+}

@@ -410,3 +410,14 @@ func UniqBy[T any, U comparable](iteratee func(T) U, array []T) []T {
 func UniqWith[T any](comparator func(T, T) bool, array []T) []T {
 	return UnionWith(comparator, array)
 }
+
+// Without returns a new slice without the given elements. Uses `==` for equality checks.
+func Without[T comparable](array []T, values ...T) []T {
+	output := make([]T, 0)
+	for _, e := range array {
+		if slices.Index(values, e) == -1 {
+			output = append(output, e)
+		}
+	}
+	return output
+}

@@ -290,7 +290,6 @@ Elements are taken until the `predicate` returns false.
 ```go
 func TakeWhile[T any](array []T, predicate func(value T, index int, array []T) bool) []T
 ```
-
 TakeWhile creates a slice of elements taken from the beginning of `array`.
 Elements are taken until the `predicate` returns false.
 
@@ -299,7 +298,6 @@ Elements are taken until the `predicate` returns false.
 ```go
 func Union[T comparable](arrays ...[]T) []T
 ```
-
 Union creates a new slice, in order, of unique values of all the given arrays.
 Uses `==` for equality checks.
 
@@ -308,7 +306,6 @@ Uses `==` for equality checks.
 ```go
 func UnionBy[T any, U comparable](iteratee func(T) U, arrays ...[]T) []T
 ```
-
 UnionBy creates a new slice, in order, of unique values of all the given arrays.
 Uses the result of the given `iteratee` to check equality.
 
@@ -317,7 +314,6 @@ Uses the result of the given `iteratee` to check equality.
 ```go
 func UnionWith[T any](comparator func(T, T) bool, arrays ...[]T) []T
 ```
-
 UnionWith creates a new slice, in order, of unique values of all the given
 arrays. Uses the given `comparator` to check equality between elements.
 
@@ -326,7 +322,6 @@ arrays. Uses the given `comparator` to check equality between elements.
 ```go
 func Uniq[T comparable](array []T) []T
 ```
-
 Uniq returns a new slice, in order, with no duplicates, with only the first
 occurrence of each element kept. Comparison is performed with `==`.
 
@@ -335,7 +330,6 @@ occurrence of each element kept. Comparison is performed with `==`.
 ```go
 func UniqBy[T any, U comparable](iteratee func(T) U, array []T) []T
 ```
-
 UniqBy returns a new slice, in order, with no duplicates, with only the first
 occurrence of each element kept. Comparison is performed with `==` on the result
 of passing each element through the given `iteratee`.
@@ -349,3 +343,12 @@ func UniqWith[T any](comparator func(T, T) bool, array []T) []T
 UniqWith returns a new slice, in order, with no duplicates, with only the first
 occurrence of each element kept. Comparison is performed using the given
 `comparator`.
+
+#### func  Without
+
+```go
+func Without[T comparable](array []T, values ...T) []T
+```
+
+Without returns a new slice without the given elements. Uses `==` for equality
+checks.
