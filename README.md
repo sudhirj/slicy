@@ -18,7 +18,6 @@ cannot be split evenly, the last chunk will have the remaining elements.
 ```go
 func Concat[T any](arrays ...[]T) []T
 ```
-
 Concat combines all the elements from all the given arrays into a single array.
 
 #### func  CountBy
@@ -26,7 +25,6 @@ Concat combines all the elements from all the given arrays into a single array.
 ```go
 func CountBy[T any, U comparable](array []T, iteratee func(T) U) map[U]int
 ```
-
 CountBy creates an object composed of keys generated from the results of running
 each element of the collection through `iteratee`. The corresponding value of
 each key is the number of times the key was returned by `iteratee`.
@@ -36,7 +34,6 @@ each key is the number of times the key was returned by `iteratee`.
 ```go
 func Difference[T comparable](array []T, others ...[]T) []T
 ```
-
 Difference returns a list of items present in `array` that are *not* present in
 any of the `others` arrays. The comparison is performed with `==`.
 
@@ -86,7 +83,6 @@ end. Elements are dropped until `predicate` returns false.
 ```go
 func DropWhile[T any](array []T, predicate func(value T, index int, array []T) bool) []T
 ```
-
 DropWhile creates a slice of `array` excluding elements dropped from the
 beginning. Elements are dropped until `predicate` returns false.
 
@@ -95,7 +91,6 @@ beginning. Elements are dropped until `predicate` returns false.
 ```go
 func Each[T any](array []T, iteratee func(value T, index int, array []T))
 ```
-
 Each invokes the given `iteratee` for every element in the collection, from left
 to right.
 
@@ -104,7 +99,6 @@ to right.
 ```go
 func EachRight[T any](array []T, iteratee func(value T, index int, array []T))
 ```
-
 EachRight invokes the given `iteratee` for every element in the collection, from
 right to left.
 
@@ -113,7 +107,6 @@ right to left.
 ```go
 func Every[T any](array []T, predicate func(value T, index int, array []T) bool) bool
 ```
-
 Every returns true if the given `predicate` returns true for every element of
 the given collection.
 
@@ -122,7 +115,6 @@ the given collection.
 ```go
 func Fill[T any](array []T, value T, start int, end int)
 ```
-
 Fill fills elements of `array` with `value` from `start` up to, but not
 including `end`.
 
