@@ -148,34 +148,33 @@ func IndexOf[T comparable](array []T, value T) int {
 
 // Intersection returns an array of unique values that are included in all given arrays.
 // The order of the result values are determined by the first array.
-func Intersection[T comparable](array []T, others ...[]T) []T {
-	return IntersectionWith(array, func(x, y T) bool { return x == y }, others...)
+func Intersection[T comparable](arrays ...[]T) []T {
+	return IntersectionWith(func(x, y T) bool { return x == y }, arrays...)
 }
 
 // IntersectionBy returns an array of unique values that are included in all given arrays,
 // with comparison happening on the result of the `iteratee` function. The order of the result
 // values are determined by the first array.
-func IntersectionBy[T comparable, U comparable](array []T, iteratee func(T) U, others ...[]T) []T {
-	return IntersectionWith(array, func(x, y T) bool { return iteratee(x) == iteratee(y) }, others...)
+func IntersectionBy[T any, U comparable](iteratee func(T) U, arrays ...[]T) []T {
+	return IntersectionWith(func(x, y T) bool { return iteratee(x) == iteratee(y) }, arrays...)
 }
 
 // IntersectionWith returns an array of unique values that are included in all given arrays,
 // with comparison happening inside the given `comparator`. The order of the result values
 // are determined by the first array.
-func IntersectionWith[T comparable](array []T, comparator func(T, T) bool, others ...[]T) []T {
+func IntersectionWith[T any](comparator func(T, T) bool, arrays ...[]T) []T {
 	output := make([]T, 0)
-	for _, item := range array {
-		findCount := 0
-		for _, otherArray := range others {
-			for _, otherItem := range otherArray {
-				if comparator(item, otherItem) {
-					findCount++
-					break
+	for _, array := range arrays {
+		for _, item := range array {
+			found := true
+			for _, searchArray := range arrays {
+				if slices.IndexFunc(searchArray, func(e T) bool { return comparator(e, item) }) == -1 {
+					found = false
 				}
 			}
-		}
-		if findCount == len(others) && FindIndex(output, func(e T) bool { return comparator(e, item) }) == -1 {
-			output = append(output, item)
+			if found && slices.IndexFunc(output, func(e T) bool { return comparator(e, item) }) == -1 {
+				output = append(output, item)
+			}
 		}
 	}
 	return output
@@ -417,6 +416,39 @@ func Without[T comparable](array []T, values ...T) []T {
 	for _, e := range array {
 		if slices.Index(values, e) == -1 {
 			output = append(output, e)
+		}
+	}
+	return output
+}
+
+// Xor returns a new slice of unique values that is the symmetric difference
+// (elements which are any of the sets but not in their intersection) of the given arrays.
+// The order of result values is determined by the order they occur in the arrays.
+func Xor[T comparable](arrays ...[]T) []T {
+	return XorWith(func(a, b T) bool { return a == b }, arrays...)
+}
+
+// XorBy returns a new slice of unique values that is the symmetric difference
+// (elements which are any of the sets but not in their intersection) of the given arrays.
+// The order of result values is determined by the order they occur in the arrays.
+// Equality is determined by passing elements through the given `iteratee`.
+func XorBy[T any, U comparable](iteratee func(T) U, arrays ...[]T) []T {
+	return XorWith(func(a, b T) bool { return iteratee(a) == iteratee(b) }, arrays...)
+}
+
+// XorWith returns a new slice of unique values that is the symmetric difference
+// (elements which are any of the sets but not in their intersection) of the given arrays.
+// The order of result values is determined by the order they occur in the arrays.
+// Equality is determined by passing elements to the given `comparator`.
+func XorWith[T any](comparator func(T, T) bool, arrays ...[]T) []T {
+	output := make([]T, 0)
+	intersection := IntersectionWith(comparator, arrays...)
+	for _, array := range arrays {
+		for _, item := range array {
+			f := func(e T) bool { return comparator(e, item) }
+			if slices.IndexFunc(intersection, f) == -1 && slices.IndexFunc(output, f) == -1 {
+				output = append(output, item)
+			}
 		}
 	}
 	return output

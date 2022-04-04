@@ -270,16 +270,16 @@ func ExampleIntersection() {
 }
 
 func ExampleIntersectionBy() {
-	fmt.Println(IntersectionBy([]float64{2.1, 1.2}, math.Floor, []float64{2.3, 3.4}))
-	fmt.Println(IntersectionBy([]float64{2.1, 1.2, 2.4}, math.Floor, []float64{2.3, 3.4}))
+	fmt.Println(IntersectionBy(math.Floor, []float64{2.1, 1.2}, []float64{2.3, 3.4}))
+	fmt.Println(IntersectionBy(math.Floor, []float64{2.1, 1.2, 2.4}, []float64{2.3, 3.4}))
 	// Output:
 	// [2.1]
 	// [2.1]
 }
 
 func ExampleIntersectionWith() {
-	fmt.Println(IntersectionWith([]float64{2.1, 1.2}, func(x, y float64) bool { return math.Floor(x) == math.Floor(y) }, []float64{2.3, 3.4}))
-	fmt.Println(IntersectionWith([]float64{2.1, 1.2, 2.4}, func(x, y float64) bool { return math.Floor(x) == math.Floor(y) }, []float64{2.3, 3.4}))
+	fmt.Println(IntersectionWith(func(x, y float64) bool { return math.Floor(x) == math.Floor(y) }, []float64{2.1, 1.2}, []float64{2.3, 3.4}))
+	fmt.Println(IntersectionWith(func(x, y float64) bool { return math.Floor(x) == math.Floor(y) }, []float64{2.1, 1.2, 2.4}, []float64{2.3, 3.4}))
 	// Output:
 	// [2.1]
 	// [2.1]
@@ -532,4 +532,22 @@ func ExampleWithout() {
 	// Output:
 	// [3]
 	// []
+}
+
+func ExampleXor() {
+	fmt.Println(Xor([]int{2, 1}, []int{2, 3}))
+	// Output:
+	// [1 3]
+}
+
+func ExampleXorBy() {
+	fmt.Println(XorBy(math.Floor, []float64{2.1, 1.2}, []float64{2.3, 3.4}))
+	// Output:
+	// [1.2 3.4]
+}
+
+func ExampleXorWith() {
+	fmt.Println(XorWith(func(a, b float64) bool { return math.Floor(a) == math.Floor(b) }, []float64{2.1, 1.2}, []float64{2.3, 3.4}))
+	// Output:
+	// [1.2 3.4]
 }

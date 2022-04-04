@@ -112,7 +112,7 @@ IndexOf returns the index at which the first occurrence of `value` is found in
 #### func  Intersection
 
 ```go
-func Intersection[T comparable](array []T, others ...[]T) []T
+func Intersection[T comparable](arrays ...[]T) []T
 ```
 Intersection returns an array of unique values that are included in all given
 arrays. The order of the result values are determined by the first array.
@@ -120,7 +120,7 @@ arrays. The order of the result values are determined by the first array.
 #### func  IntersectionBy
 
 ```go
-func IntersectionBy[T comparable, U comparable](array []T, iteratee func(T) U, others ...[]T) []T
+func IntersectionBy[T any, U comparable](iteratee func(T) U, arrays ...[]T) []T
 ```
 IntersectionBy returns an array of unique values that are included in all given
 arrays, with comparison happening on the result of the `iteratee` function. The
@@ -129,7 +129,7 @@ order of the result values are determined by the first array.
 #### func  IntersectionWith
 
 ```go
-func IntersectionWith[T comparable](array []T, comparator func(T, T) bool, others ...[]T) []T
+func IntersectionWith[T any](comparator func(T, T) bool, arrays ...[]T) []T
 ```
 IntersectionWith returns an array of unique values that are included in all
 given arrays, with comparison happening inside the given `comparator`. The order
@@ -339,7 +339,6 @@ of passing each element through the given `iteratee`.
 ```go
 func UniqWith[T any](comparator func(T, T) bool, array []T) []T
 ```
-
 UniqWith returns a new slice, in order, with no duplicates, with only the first
 occurrence of each element kept. Comparison is performed using the given
 `comparator`.
@@ -352,3 +351,36 @@ func Without[T comparable](array []T, values ...T) []T
 
 Without returns a new slice without the given elements. Uses `==` for equality
 checks.
+
+#### func  Xor
+
+```go
+func Xor[T comparable](arrays ...[]T) []T
+```
+
+Xor returns a new slice of unique values that is the symmetric difference
+(elements which are any of the sets but not in their intersection) of the given
+arrays. The order of result values is determined by the order they occur in the
+arrays.
+
+#### func  XorBy
+
+```go
+func XorBy[T any, U comparable](iteratee func(T) U, arrays ...[]T) []T
+```
+
+XorBy returns a new slice of unique values that is the symmetric difference
+(elements which are any of the sets but not in their intersection) of the given
+arrays. The order of result values is determined by the order they occur in the
+arrays. Equality is determined by passing elements through the given `iteratee`.
+
+#### func  XorWith
+
+```go
+func XorWith[T any](comparator func(T, T) bool, arrays ...[]T) []T
+```
+
+XorWith returns a new slice of unique values that is the symmetric difference
+(elements which are any of the sets but not in their intersection) of the given
+arrays. The order of result values is determined by the order they occur in the
+arrays. Equality is determined by passing elements to the given `comparator`.
