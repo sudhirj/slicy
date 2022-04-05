@@ -150,6 +150,31 @@ func FindLastIndex[T any](array []T, predicate func(T) bool) int
 FindLastIndex returns the index of the last element of which the `predicate`
 returns true.
 
+#### func  FlatMap
+
+```go
+func FlatMap[T any, U any](array []T, iteratee func(value T, index int, arr []T) []U) []U
+```
+FlatMap creates a flattened array of values by running each element in `array`
+through `iteratee` and flattening the mapped results.
+
+#### func  GroupBy
+
+```go
+func GroupBy[T any, U comparable](array []T, iteratee func(T) U) map[U][]T
+```
+GroupBy creates a map composed of keys generated from the results of running
+each element of `array` through `iteratee`. The order of the grouped values is
+determined by the order that they occur in `array`. The corresponding value of
+each key is an array of elements responsible for generating the key.
+
+#### func  Includes
+
+```go
+func Includes[T comparable](array []T, value T) bool
+```
+Includes checks if `value` is in `array`. Equality is checked with `==`.
+
 #### func  IndexOf
 
 ```go
@@ -193,6 +218,15 @@ Join concatenates all the elements of the array into a string separated by
 `separator`. `fmt.Sprint` is used for to get the string representation of the
 given value, so mixed types are possible with `[]any`.
 
+#### func  KeyBy
+
+```go
+func KeyBy[T any, U comparable](array []T, iteratee func(T) U) map[U]T
+```
+KeyBy creates a map composed of keys generated from the results of running each
+element of `array` through `iteratee`. The corresponding value of each key is
+the last element responsible for generating the key.
+
 #### func  LastIndexOf
 
 ```go
@@ -201,6 +235,14 @@ func LastIndexOf[T comparable](array []T, value T) int
 LastIndexOf returns the index at which the last occurrence of `value` is found
 in `array`. Returns `-1` if not found.
 
+#### func  Map
+
+```go
+func Map[T any, U any](array []T, iteratee func(T) U) []U
+```
+Map creates a slice of values by running each element in `array` through
+`iteratee`.
+
 #### func  Nth
 
 ```go
@@ -208,6 +250,15 @@ func Nth[T any](array []T, n int) T
 ```
 Nth gets the element at index `n` of the `array`. If `n` is negative, the nth
 element from the end is returned.
+
+#### func  Partition
+
+```go
+func Partition[T any](array []T, predicate func(T) bool) (truths []T, falsehoods []T)
+```
+Partition creates two slices, the first of which contains elements that
+`predicate` returns true for, with the second containing elements for which
+`predicate` returns false.
 
 #### func  Pull
 

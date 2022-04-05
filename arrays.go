@@ -512,3 +512,69 @@ func Find[T any](array []T, predicate func(value T, index int, arr []T) bool) (r
 	}
 	return
 }
+
+// FlatMap creates a flattened array of values by running each element in `array` through
+// `iteratee` and flattening the mapped results.
+func FlatMap[T any, U any](array []T, iteratee func(value T, index int, arr []T) []U) []U {
+	output := make([]U, 0)
+	for i, item := range array {
+		output = append(output, iteratee(item, i, array)...)
+	}
+	return output
+}
+
+// GroupBy creates a map composed of keys generated from the results of running each element
+// of `array` through `iteratee`. The order of the grouped values is determined by the order
+// that they occur in `array`. The corresponding value of each key is an array of elements
+// responsible for generating the key.
+func GroupBy[T any, U comparable](array []T, iteratee func(T) U) map[U][]T {
+	output := make(map[U][]T)
+	for _, item := range array {
+		key := iteratee(item)
+		output[key] = append(output[key], item)
+	}
+	return output
+}
+
+// Includes checks if `value` is in `array`. Equality is checked with `==`.
+func Includes[T comparable](array []T, value T) bool {
+	return slices.Contains(array, value)
+}
+
+// KeyBy creates a map composed of keys generated from the results of running each element
+// of `array` through `iteratee`. The corresponding value of each key is the last element
+// responsible for generating the key.
+func KeyBy[T any, U comparable](array []T, iteratee func(T) U) map[U]T {
+	output := make(map[U]T)
+	for _, item := range array {
+		key := iteratee(item)
+		output[key] = item
+	}
+	return output
+}
+
+// Map creates a slice of values by running each element in `array` through
+// `iteratee`.
+func Map[T any, U any](array []T, iteratee func(T) U) []U {
+	output := make([]U, len(array))
+	for i, item := range array {
+		output[i] = iteratee(item)
+	}
+	return output
+}
+
+// Partition creates two slices, the first of which contains elements that
+// `predicate` returns true for, with the second containing elements for which
+// `predicate` returns false.
+func Partition[T any](array []T, predicate func(T) bool) (truths []T, falsehoods []T) {
+	truths = make([]T, 0)
+	falsehoods = make([]T, 0)
+	for _, item := range array {
+		if predicate(item) {
+			truths = append(truths, item)
+		} else {
+			falsehoods = append(falsehoods, item)
+		}
+	}
+	return
+}

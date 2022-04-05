@@ -595,3 +595,41 @@ func ExampleFind() {
 	// Output:
 	// 3
 }
+
+func ExampleFlatMap() {
+	fmt.Println(FlatMap([]int{1, 2}, func(value int, index int, arr []int) []int { return []int{value, value} }))
+	// Output:
+	// [1 1 2 2]
+}
+
+func ExampleGroupBy() {
+	fmt.Println(GroupBy([]float64{6.1, 4.2, 6.3}, math.Floor))
+	// Output:
+	// map[4:[4.2] 6:[6.1 6.3]]
+}
+
+func ExampleIncludes() {
+	fmt.Println(Includes([]int{1, 2, 3}, 1))
+	fmt.Println(Includes([]int{1, 2, 3}, 42))
+	// Output:
+	// true
+	// false
+}
+
+func ExampleKeyBy() {
+	fmt.Println(KeyBy([]float64{6.1, 4.2, 6.3}, math.Floor))
+	// Output:
+	// map[4:4.2 6:6.3]
+}
+
+func ExampleMap() {
+	fmt.Println(Map([]int{4, 8}, func(n int) int { return n * n }))
+	// Output:
+	// [16 64]
+}
+
+func ExamplePartition() {
+	fmt.Println(Partition([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, func(n int) bool { return n%2 == 0 }))
+	// Output:
+	// [2 4 6 8 10] [1 3 5 7 9]
+}
