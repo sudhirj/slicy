@@ -118,6 +118,22 @@ func Fill[T any](array []T, value T, start int, end int)
 Fill fills elements of `array` with `value` from `start` up to, but not
 including `end`.
 
+#### func  Filter
+
+```go
+func Filter[T any](array []T, predicate func(value T, index int, arr []T) bool) []T
+```
+Filter iterates over the elements of `collection`, returning an array of all
+elements that the `predicate` returns true for.
+
+#### func  Find
+
+```go
+func Find[T any](array []T, predicate func(value T, index int, arr []T) bool) (result T)
+```
+Find iterates over the elements of `array`, returning the first element that
+`predicate` returns true for.
+
 #### func  FindIndex
 
 ```go

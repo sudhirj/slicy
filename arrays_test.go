@@ -583,3 +583,15 @@ func ExampleEvery() {
 	// true
 	// false
 }
+
+func ExampleFilter() {
+	fmt.Println(Filter([]int{1, 2, 3, 4, 5, 6}, func(v int, index int, arr []int) bool { return v%2 == 0 }))
+	// Output:
+	// [2 4 6]
+}
+
+func ExampleFind() {
+	fmt.Println(Find([]int{1, 2, 3, 4}, func(value int, index int, arr []int) bool { return value > 2 }))
+	// Output:
+	// 3
+}

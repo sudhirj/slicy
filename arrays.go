@@ -489,3 +489,26 @@ func Every[T any](array []T, predicate func(value T, index int, array []T) bool)
 	}
 	return true
 }
+
+// Filter iterates over the elements of `collection`, returning an array of all elements
+// that the `predicate` returns true for.
+func Filter[T any](array []T, predicate func(value T, index int, arr []T) bool) []T {
+	output := make([]T, 0)
+	for i, item := range array {
+		if predicate(item, i, array) {
+			output = append(output, item)
+		}
+	}
+	return output
+}
+
+// Find iterates over the elements of `array`, returning the first element that `predicate`
+// returns true for.
+func Find[T any](array []T, predicate func(value T, index int, arr []T) bool) (result T) {
+	for i, item := range array {
+		if predicate(item, i, array) {
+			return item
+		}
+	}
+	return
+}
