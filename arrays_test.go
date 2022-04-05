@@ -649,3 +649,9 @@ func ExampleReduceRight() {
 	// Output:
 	// olleh
 }
+
+func ExampleReject() {
+	fmt.Println(Reject([]int{1, 2, 3, 4, 5}, func(n int, index int, arr []int) bool { return n%2 == 0 }))
+	// Output:
+	// [1 3 5]
+}

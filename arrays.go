@@ -598,3 +598,15 @@ func ReduceRight[T any, U any](array []T, iteratee func(acc U, value T, index in
 	}
 	return accumulator
 }
+
+// Reject iterates over the elements of `array`, returning a new slice of the elements for which
+// `predicate` returns false.
+func Reject[T any](array []T, predicate func(value T, index int, arr []T) bool) []T {
+	output := make([]T, 0)
+	for i, item := range array {
+		if !predicate(item, i, array) {
+			output = append(output, item)
+		}
+	}
+	return output
+}

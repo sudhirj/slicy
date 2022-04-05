@@ -317,6 +317,14 @@ running each element in `array`, from right to left, through `iteratee`, where
 each successive invocation is supplied the return value of the previous one.
 `accumulator` is used as the initial value.
 
+#### func  Reject
+
+```go
+func Reject[T any](array []T, predicate func(value T, index int, arr []T) bool) []T
+```
+Reject iterates over the elements of `array`, returning a new slice of the
+elements for which `predicate` returns false.
+
 #### func  Remove
 
 ```go
