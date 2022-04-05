@@ -578,3 +578,23 @@ func Partition[T any](array []T, predicate func(T) bool) (truths []T, falsehoods
 	}
 	return
 }
+
+// Reduce reduces `array` to a value which is the accumulated result of running
+// each element in `array` through `iteratee`, where each successive invocation is
+// supplied the return value of the previous one. `accumulator` is used as the initial value.
+func Reduce[T any, U any](array []T, iteratee func(acc U, value T, index int, arr []T) U, accumulator U) U {
+	for i, item := range array {
+		accumulator = iteratee(accumulator, item, i, array)
+	}
+	return accumulator
+}
+
+// ReduceRight reduces `array` to a value which is the accumulated result of running
+// each element in `array`, from right to left, through `iteratee`, where each successive
+// invocation is supplied the return value of the previous one. `accumulator` is used as the initial value.
+func ReduceRight[T any, U any](array []T, iteratee func(acc U, value T, index int, arr []T) U, accumulator U) U {
+	for i := len(array) - 1; i >= 0; i-- {
+		accumulator = iteratee(accumulator, array[i], i, array)
+	}
+	return accumulator
+}

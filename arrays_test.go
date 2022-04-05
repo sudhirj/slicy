@@ -633,3 +633,19 @@ func ExamplePartition() {
 	// Output:
 	// [2 4 6 8 10] [1 3 5 7 9]
 }
+
+func ExampleReduce() {
+	fmt.Println(Reduce([]float64{1.1, 2.2, 3.3, 4.4, 5.5}, func(acc float64, val float64, index int, arr []float64) float64 {
+		return acc + val
+	}, 0.0))
+	// Output:
+	// 16.5
+}
+
+func ExampleReduceRight() {
+	fmt.Println(ReduceRight([]string{"h", "e", "l", "l", "o"}, func(acc string, val string, index int, arr []string) string {
+		return acc + val
+	}, ""))
+	// Output:
+	// olleh
+}

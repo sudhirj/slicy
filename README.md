@@ -297,6 +297,26 @@ func PullAt[T comparable](array []T, indexes ...int) []T
 ```
 PullAt returns a slice of `array` without the items at the given indexes.
 
+#### func  Reduce
+
+```go
+func Reduce[T any, U any](array []T, iteratee func(acc U, value T, index int, arr []T) U, accumulator U) U
+```
+Reduce reduces `array` to a value which is the accumulated result of running
+each element in `array` through `iteratee`, where each successive invocation is
+supplied the return value of the previous one. `accumulator` is used as the
+initial value.
+
+#### func  ReduceRight
+
+```go
+func ReduceRight[T any, U any](array []T, iteratee func(acc U, value T, index int, arr []T) U, accumulator U) U
+```
+ReduceRight reduces `array` to a value which is the accumulated result of
+running each element in `array`, from right to left, through `iteratee`, where
+each successive invocation is supplied the return value of the previous one.
+`accumulator` is used as the initial value.
+
 #### func  Remove
 
 ```go
