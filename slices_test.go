@@ -426,7 +426,9 @@ func ExampleSortedLastIndex() {
 
 func ExampleSortedLastIndexBy() {
 	fmt.Println(SortedLastIndexBy([]float64{1, -2, -4, 5, -5, 5, -5, -6, 7}, 5, math.Abs))
+	fmt.Println(SortedLastIndexBy([]float64{1, -2, -4, 5, -5, 5, -5}, 5, math.Abs))
 	// Output:
+	// 7
 	// 7
 }
 
@@ -581,6 +583,16 @@ func ExampleEvery() {
 	// Output:
 	// true
 	// true
+	// false
+}
+
+func ExampleSome() {
+	fmt.Println(Some([]int{1, 2, 3}, func(v int, _ int, _ []int) bool { return v%2 == 0 }))
+	fmt.Println(Some([]int{1, 3}, func(v int, _ int, _ []int) bool { return v%2 == 0 }))
+	fmt.Println(Some([]int{}, func(v int, _ int, _ []int) bool { return v%2 == 0 }))
+	// Output:
+	// true
+	// false
 	// false
 }
 

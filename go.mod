@@ -2,4 +2,4 @@ module github.com/sudhirj/slicy
 
 go 1.18
 
-require golang.org/x/exp v0.0.0-20220321173239-a90fa8a75705
+require golang.org/x/exp v0.0.0-20220328175248-053ad81199eb

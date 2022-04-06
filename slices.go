@@ -10,55 +10,50 @@ import (
 
 // Chunk splits the given array into groups the length of `chunkSize`.
 // If the array cannot be split evenly, the last chunk will have the remaining elements.
-func Chunk[T any](array []T, chunkSize int) [][]T {
-	chunks := int(math.Ceil(float64(len(array)) / float64(chunkSize)))
-	output := make([][]T, chunks)
+func Chunk[S ~[]T, T any](slice S, chunkSize int) []S {
+	chunks := int(math.Ceil(float64(len(slice)) / float64(chunkSize)))
+	output := make([]S, chunks)
 	for c := 0; c < chunks; c++ {
 		start := c * chunkSize
 		end := start + chunkSize
-		if end > len(array) {
-			end = len(array)
+		if end > len(slice) {
+			end = len(slice)
 		}
-		output[c] = array[start:end]
+		output[c] = slice[start:end]
 	}
 	return output
 }
 
-// Concat combines all the elements from all the given arrays into a single array.
-func Concat[T any](arrays ...[]T) []T {
-	output := make([]T, 0)
-	for _, array := range arrays {
-		output = append(output, array...)
+// Concat combines all the elements from all the given slices into a single slice.
+func Concat[S ~[]T, T any](slices ...S) S {
+	output := make(S, 0)
+	for _, list := range slices {
+		output = append(output, list...)
 	}
 	return output
 }
 
-// Difference returns a list of items present in `array` that are *not* present in any of
-// the `others` arrays. The comparison is performed with `==`.
-func Difference[T comparable](array []T, others ...[]T) []T {
-	return DifferenceWith(array, func(x, y T) bool { return x == y }, others...)
+// Difference returns a list of items present in `slice` that are *not* present in any of
+// the `others` slices. The comparison is performed with `==`.
+func Difference[S ~[]T, T comparable](slice S, others ...S) S {
+	return DifferenceWith(slice, func(x, y T) bool { return x == y }, others...)
 }
 
-// DifferenceBy returns a list of items present in `array` that are *not* present in any of
-// the `others` arrays, with the comparison made by passing items into the `iteratee` function
+// DifferenceBy returns a list of items present in `slice` that are *not* present in any of
+// the `others` slices, with the comparison made by passing items into the `iteratee` function
 // and checking `==` on the result. This allows changing the way the item is viewed for comparison.
-func DifferenceBy[T any, U comparable](array []T, iteratee func(T) U, others ...[]T) []T {
+func DifferenceBy[S ~[]T, T any, U comparable](array S, iteratee func(T) U, others ...S) S {
 	return DifferenceWith(array, func(x, y T) bool { return iteratee(x) == iteratee(y) }, others...)
 }
 
-// DifferenceWith returns a list of items present in `array` that are *not* present in any of
-// the `others` arrays, with the comparison made using the given `comparator`.
-func DifferenceWith[T any](array []T, comparator func(T, T) bool, others ...[]T) []T {
-	output := make([]T, 0)
-	for _, item := range array {
-		found := false
-		for _, otherArray := range others {
-			for _, otherItem := range otherArray {
-				if comparator(item, otherItem) {
-					found = true
-				}
-			}
-		}
+// DifferenceWith returns a slice of items present in `slice` that are *not* present in any of
+// the `others` slices, with the comparison made using the given `comparator`.
+func DifferenceWith[S ~[]T, T any](slice S, comparator func(T, T) bool, others ...S) S {
+	output := make(S, 0)
+	for _, item := range slice {
+		found := Some(others, func(otherSlice S, _ int, _ []S) bool {
+			return Some(otherSlice, func(v T, _ int, _ S) bool { return comparator(item, v) })
+		})
 		if !found {
 			output = append(output, item)
 		}
@@ -66,59 +61,59 @@ func DifferenceWith[T any](array []T, comparator func(T, T) bool, others ...[]T)
 	return output
 }
 
-// Drop returns a slice of `array` with `n` elements dropped from the beginning.
-func Drop[T any](array []T, n int) []T {
-	if n > len(array) {
-		n = len(array)
+// Drop returns a new slice with `n` elements dropped from the beginning.
+func Drop[S ~[]T, T any](slice S, n int) S {
+	if n > len(slice) {
+		n = len(slice)
 	}
-	return array[n:]
+	return slice[n:]
 }
 
-// DropRight returns a slice of `array` with `n` elements dropped from the end.
-func DropRight[T any](array []T, n int) []T {
-	if n > len(array) {
-		n = len(array)
+// DropRight returns a new slice with `n` elements dropped from the end.
+func DropRight[S ~[]T, T any](slice S, n int) S {
+	if n > len(slice) {
+		n = len(slice)
 	}
-	return array[:len(array)-n]
+	return slice[:len(slice)-n]
 }
 
-// DropRightWhile creates a slice of `array` excluding elements dropped from the end.
+// DropRightWhile creates a new slice excluding elements dropped from the end.
 // Elements are dropped until `predicate` returns false.
-func DropRightWhile[T any](array []T, predicate func(value T, index int, array []T) bool) []T {
-	i := len(array) - 1
+func DropRightWhile[S ~[]T, T any](slice S, predicate func(value T, index int, slice S) bool) S {
+	i := len(slice) - 1
 	for i >= 0 {
-		if !predicate(array[i], i, array) {
+		if !predicate(slice[i], i, slice) {
 			break
 		}
 		i--
 	}
-	return array[:i+1]
+	return slice[:i+1]
 }
 
-// DropWhile creates a slice of `array` excluding elements dropped from the beginning.
+// DropWhile creates a new slice excluding elements dropped from the beginning.
 // Elements are dropped until `predicate` returns false.
-func DropWhile[T any](array []T, predicate func(value T, index int, array []T) bool) []T {
+func DropWhile[S ~[]T, T any](slice S, predicate func(value T, index int, slice S) bool) S {
 	i := 0
-	for i < len(array) {
-		if !predicate(array[i], i, array) {
+	for i < len(slice) {
+		if !predicate(slice[i], i, slice) {
 			break
 		}
 		i++
 	}
-	return array[i:]
+	return slice[i:]
 }
 
-// Fill fills elements of `array` with `value` from `start` up to, but not including `end`.
-func Fill[T any](array []T, value T, start int, end int) {
+// Fill fills elements of `slice` with `value` from `start` up to, but not including `end`.
+func Fill[S ~[]T, T any](slice S, value T, start int, end int) {
 	for i := start; i < end; i++ {
-		array[i] = value
+		slice[i] = value
 	}
 }
 
 // FindIndex returns the index of the first element for which the `predicate` returns true.
-func FindIndex[T any](array []T, predicate func(T) bool) int {
-	for i := 0; i < len(array); i++ {
-		if predicate(array[i]) {
+func FindIndex[S ~[]T, T any](slice S, predicate func(T) bool) int {
+	for i := 0; i < len(slice); i++ {
+		if predicate(slice[i]) {
 			return i
 		}
 	}
@@ -271,22 +266,34 @@ func Reverse[T any](array []T) []T {
 	return output
 }
 
+func cmp[T constraints.Ordered](a, b T) int {
+	if a == b {
+		return 0
+	}
+	if a < b {
+		return -1
+	}
+	return 1
+}
+
 // SortedIndex uses a binary search to determine the lowest index at which `value` should be inserted into
 // `array` in order to maintain its sort order.
 func SortedIndex[T constraints.Ordered](array []T, value T) int {
-	return slices.BinarySearch(array, value)
+	i, _ := slices.BinarySearch(array, value)
+	return i
 }
 
 // SortedIndexBy uses a binary search to determine the lowest index at which `value` should be inserted into
 // `array` in order to maintain its sort order, with the `iteratee` function used to computed sort ranking.
 func SortedIndexBy[T any, U constraints.Ordered](array []T, value T, iteratee func(T) U) int {
-	return slices.BinarySearchFunc(array, func(e T) bool { return iteratee(e) >= iteratee(value) })
+	i, _ := slices.BinarySearchFunc(array, value, func(a, b T) int { return cmp(iteratee(a), iteratee(b)) })
+	return i
 }
 
 // SortedIndexOf performs a binary search on a sorted `array` to find the given `value`. Returns -1 if not found.
 func SortedIndexOf[T constraints.Ordered](array []T, value T) int {
-	k := slices.BinarySearch(array, value)
-	if k >= len(array) || array[k] != value {
+	k, found := slices.BinarySearch(array, value)
+	if !found {
 		return -1
 	}
 	return k
@@ -297,9 +304,10 @@ func SortedIndexOf[T constraints.Ordered](array []T, value T) int {
 func SortedLastIndex[T constraints.Ordered](array []T, value T) int {
 	i := SortedIndex(array, value)
 	// we now want the next index that has a bigger value in the remaining sub-slice
-	j := slices.BinarySearchFunc(array[i:], func(v T) bool {
-		return v > value
-	})
+	j := FindIndex(array[i:], func(v T) bool { return v > value })
+	if j == -1 {
+		return len(array)
+	}
 	return i + j
 }
 
@@ -307,9 +315,10 @@ func SortedLastIndex[T constraints.Ordered](array []T, value T) int {
 // its sort order, with comparisons made on the result of passing all values through `iteratee`.
 func SortedLastIndexBy[T any, U constraints.Ordered](array []T, value T, iteratee func(T) U) int {
 	i := SortedIndexBy(array, value, iteratee)
-	j := slices.BinarySearchFunc(array[i:], func(v T) bool {
-		return iteratee(v) > iteratee(value)
-	})
+	j := FindIndex(array[i:], func(v T) bool { return iteratee(v) > iteratee(value) })
+	if j == -1 {
+		return len(array)
+	}
 	return i + j
 }
 
@@ -319,9 +328,10 @@ func SortedLastIndexOf[T constraints.Ordered](array []T, value T) int {
 	if i == -1 {
 		return i
 	}
-	j := slices.BinarySearchFunc(array[i:], func(v T) bool {
-		return v > value
-	})
+	j := FindIndex(array[i:], func(v T) bool { return v > value })
+	if j == -1 {
+		return i
+	}
 	return i + j - 1
 }
 
@@ -488,6 +498,16 @@ func Every[T any](array []T, predicate func(value T, index int, array []T) bool)
 		}
 	}
 	return true
+}
+
+// Some return true if the given `predicate` returns true for any element of the given collection.
+func Some[S ~[]T, T any](slice S, predicate func(value T, index int, slice S) bool) bool {
+	for i, item := range slice {
+		if predicate(item, i, slice) {
+			return true
+		}
+	}
+	return false
 }
 
 // Filter iterates over the elements of `collection`, returning an array of all elements

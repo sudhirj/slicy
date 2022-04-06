@@ -1,5 +1,5 @@
 # slicy
-
+--
     import "github.com/sudhirj/slicy"
 
 
@@ -8,7 +8,7 @@
 #### func  Chunk
 
 ```go
-func Chunk[T any](array []T, chunkSize int) [][]T
+func Chunk[S ~[]T, T any](slice S, chunkSize int) []S
 ```
 Chunk splits the given array into groups the length of `chunkSize`. If the array
 cannot be split evenly, the last chunk will have the remaining elements.
@@ -16,9 +16,10 @@ cannot be split evenly, the last chunk will have the remaining elements.
 #### func  Concat
 
 ```go
-func Concat[T any](arrays ...[]T) []T
+func Concat[S ~[]T, T any](slices ...S) S
 ```
-Concat combines all the elements from all the given arrays into a single array.
+
+Concat combines all the elements from all the given slices into a single slice.
 
 #### func  CountBy
 
@@ -32,59 +33,66 @@ each key is the number of times the key was returned by `iteratee`.
 #### func  Difference
 
 ```go
-func Difference[T comparable](array []T, others ...[]T) []T
+func Difference[S ~[]T, T comparable](slice S, others ...S) S
 ```
-Difference returns a list of items present in `array` that are *not* present in
-any of the `others` arrays. The comparison is performed with `==`.
+
+Difference returns a list of items present in `slice` that are *not* present in
+any of the `others` slices. The comparison is performed with `==`.
 
 #### func  DifferenceBy
 
 ```go
-func DifferenceBy[T any, U comparable](array []T, iteratee func(T) U, others ...[]T) []T
+func DifferenceBy[S ~[]T, T any, U comparable](array S, iteratee func(T) U, others ...S) S
 ```
-DifferenceBy returns a list of items present in `array` that are *not* present
-in any of the `others` arrays, with the comparison made by passing items into
+
+DifferenceBy returns a list of items present in `slice` that are *not* present
+in any of the `others` slices, with the comparison made by passing items into
 the `iteratee` function and checking `==` on the result. This allows changing
 the way the item is viewed for comparison.
 
 #### func  DifferenceWith
 
 ```go
-func DifferenceWith[T any](array []T, comparator func(T, T) bool, others ...[]T) []T
+func DifferenceWith[S ~[]T, T any](slice S, comparator func(T, T) bool, others ...S) S
 ```
-DifferenceWith returns a list of items present in `array` that are *not* present
-in any of the `others` arrays, with the comparison made using the given
+
+DifferenceWith returns a slice of items present in `slice` that are *not*
+present in any of the `others` slices, with the comparison made using the given
 `comparator`.
 
 #### func  Drop
 
 ```go
-func Drop[T any](array []T, n int) []T
+func Drop[S ~[]T, T any](slice S, n int) S
 ```
-Drop returns a slice of `array` with `n` elements dropped from the beginning.
+
+Drop returns a new slice with `n` elements dropped from the beginning.
 
 #### func  DropRight
 
 ```go
-func DropRight[T any](array []T, n int) []T
+func DropRight[S ~[]T, T any](slice S, n int) S
 ```
-DropRight returns a slice of `array` with `n` elements dropped from the end.
+
+DropRight returns a new slice with `n` elements dropped from the end.
 
 #### func  DropRightWhile
 
 ```go
-func DropRightWhile[T any](array []T, predicate func(value T, index int, array []T) bool) []T
+func DropRightWhile[S ~[]T, T any](slice S, predicate func(value T, index int, slice S) bool) S
 ```
-DropRightWhile creates a slice of `array` excluding elements dropped from the
-end. Elements are dropped until `predicate` returns false.
+
+DropRightWhile creates a new slice excluding elements dropped from the end.
+Elements are dropped until `predicate` returns false.
 
 #### func  DropWhile
 
 ```go
-func DropWhile[T any](array []T, predicate func(value T, index int, array []T) bool) []T
+func DropWhile[S ~[]T, T any](slice S, predicate func(value T, index int, slice S) bool) S
 ```
-DropWhile creates a slice of `array` excluding elements dropped from the
-beginning. Elements are dropped until `predicate` returns false.
+
+DropWhile creates a new slice excluding elements dropped from the beginning.
+Elements are dropped until `predicate` returns false.
 
 #### func  Each
 
@@ -113,9 +121,10 @@ the given collection.
 #### func  Fill
 
 ```go
-func Fill[T any](array []T, value T, start int, end int)
+func Fill[S ~[]T, T any](slice S, value T, start int, end int)
 ```
-Fill fills elements of `array` with `value` from `start` up to, but not
+
+Fill fills elements of `slice` with `value` from `start` up to, but not
 including `end`.
 
 #### func  Filter
@@ -137,7 +146,7 @@ Find iterates over the elements of `array`, returning the first element that
 #### func  FindIndex
 
 ```go
-func FindIndex[T any](array []T, predicate func(T) bool) int
+func FindIndex[S ~[]T, T any](slice S, predicate func(T) bool) int
 ```
 FindIndex returns the index of the first element for which the `predicate`
 returns true.
@@ -330,6 +339,7 @@ elements for which `predicate` returns false.
 ```go
 func Remove[T any](array []T, predicate func(value T, index int, array []T) bool) []T
 ```
+
 Remove returns a slice of `array` without the elements for which the `predicate`
 returns `true`.
 
@@ -338,14 +348,25 @@ returns `true`.
 ```go
 func Reverse[T any](array []T) []T
 ```
+
 Reverse return the reverse of `array`: with the first element last, the second
 element second-to-last, and so on.
+
+#### func  Some
+
+```go
+func Some[S ~[]T, T any](slice S, predicate func(value T, index int, slice S) bool) bool
+```
+
+Some return true if the given `predicate` returns true for any element of the
+given collection.
 
 #### func  SortedIndex
 
 ```go
 func SortedIndex[T constraints.Ordered](array []T, value T) int
 ```
+
 SortedIndex uses a binary search to determine the lowest index at which `value`
 should be inserted into `array` in order to maintain its sort order.
 
