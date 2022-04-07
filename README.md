@@ -8,7 +8,7 @@
 #### func  All
 
 ```go
-func All[T any](slice []T, predicate func(value T, index int, slice []T) bool) bool
+func All[S ~[]T, T any](slice S, predicate func(value T, index int, slice S) bool) bool
 ```
 All returns true if the given `predicate` returns true for every element of the
 given slice.
@@ -26,7 +26,6 @@ given slice.
 ```go
 func Chunk[S ~[]T, T any](slice S, chunkSize int) []S
 ```
-
 Chunk splits the given slice into smaller slices, each the length of
 `chunkSize`. If the slice cannot be split evenly, the last chunk will have the
 remaining elements.
@@ -141,7 +140,6 @@ including `end`.
 ```go
 func Filter[S ~[]T, T any](slice S, predicate func(value T, index int, slice S) bool) S
 ```
-
 Filter iterates over the elements of `slice`, returning a slice of all elements
 that the `predicate` returns true for.
 
@@ -284,7 +282,6 @@ Partition creates two slices, the first of which contains elements that
 ```go
 func Pull[S ~[]T, T comparable](slice S, values ...T) S
 ```
-
 Pull returns a new slice without all the given `values`.
 
 #### func  PullAll
@@ -292,7 +289,6 @@ Pull returns a new slice without all the given `values`.
 ```go
 func PullAll[S ~[]T, T comparable](slice S, values []T) S
 ```
-
 PullAll returns a new slice without the items in `values`.
 
 #### func  PullAllBy
@@ -300,7 +296,6 @@ PullAll returns a new slice without the items in `values`.
 ```go
 func PullAllBy[S ~[]T, T any, U comparable](slice S, values []T, iteratee func(T) U) S
 ```
-
 PullAllBy returns a new slice without the items in `values`, with the comparison
 made by passing both values through the `iteratee` function.
 
@@ -309,7 +304,6 @@ made by passing both values through the `iteratee` function.
 ```go
 func PullAllWith[S ~[]T, T any](slice S, values []T, comparator func(T, T) bool) S
 ```
-
 PullAllWith returns a new slice without the items in `values`, with the
 comparison made using the given `comparator`.
 
@@ -318,7 +312,6 @@ comparison made using the given `comparator`.
 ```go
 func PullAt[T comparable](slice []T, indexes ...int) []T
 ```
-
 PullAt returns a new slice without the items at the given indexes.
 
 #### func  Reduce
@@ -526,7 +519,6 @@ slices.
 ```go
 func XorBy[S ~[]T, T any, U comparable](iteratee func(T) U, slices ...S) S
 ```
-
 XorBy returns a new slice of unique values that is the symmetric difference
 (elements which are any of the sets but not in their intersection) of the given
 slices. The order of result values is determined by the order they occur in the

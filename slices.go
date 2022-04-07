@@ -501,7 +501,7 @@ func Every[S ~[]T, T any](slice S, predicate func(value T, index int, slice S) b
 
 // All returns true if the given `predicate` returns true for every element of the given
 // slice.
-func All[T any](slice []T, predicate func(value T, index int, slice []T) bool) bool {
+func All[S ~[]T, T any](slice S, predicate func(value T, index int, slice S) bool) bool {
 	return Every(slice, predicate)
 }
 
