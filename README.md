@@ -2,14 +2,14 @@
 
     import "github.com/sudhirj/slicy"
 
+
 ## Usage
 
 #### func  All
 
 ```go
-func All[T any](array []T, predicate func(value T, index int, array []T) bool) bool
+func All[T any](slice []T, predicate func(value T, index int, slice []T) bool) bool
 ```
-
 All returns true if the given `predicate` returns true for every element of the
 given slice.
 
@@ -18,7 +18,6 @@ given slice.
 ```go
 func Any[S ~[]T, T any](slice S, predicate func(value T, index int, slice S) bool) bool
 ```
-
 Any return true if the given `predicate` returns true for any element of the
 given slice.
 
@@ -28,8 +27,9 @@ given slice.
 func Chunk[S ~[]T, T any](slice S, chunkSize int) []S
 ```
 
-Chunk splits the given array into groups the length of `chunkSize`. If the array
-cannot be split evenly, the last chunk will have the remaining elements.
+Chunk splits the given slice into smaller slices, each the length of
+`chunkSize`. If the slice cannot be split evenly, the last chunk will have the
+remaining elements.
 
 #### func  Concat
 
@@ -43,7 +43,6 @@ Concat combines all the elements from all the given slices into a single slice.
 ```go
 func CountBy[S ~[]T, T any, U comparable](slice S, iteratee func(T) U) map[U]int
 ```
-
 CountBy creates a map composed of keys generated from the results of running
 each element of the slice through `iteratee`. The corresponding value of each
 key is the number of times the key was returned by `iteratee`.
@@ -59,7 +58,7 @@ any of the `others` slices. The comparison is performed with `==`.
 #### func  DifferenceBy
 
 ```go
-func DifferenceBy[S ~[]T, T any, U comparable](array S, iteratee func(T) U, others ...S) S
+func DifferenceBy[S ~[]T, T any, U comparable](slice S, iteratee func(T) U, others ...S) S
 ```
 DifferenceBy returns a list of items present in `slice` that are *not* present
 in any of the `others` slices, with the comparison made by passing items into
@@ -110,7 +109,6 @@ Elements are dropped until `predicate` returns false.
 ```go
 func Each[S ~[]T, T any](slice S, iteratee func(value T, index int, slice S))
 ```
-
 Each invokes the given `iteratee` for every element in the slice, from left to
 right.
 
@@ -119,14 +117,13 @@ right.
 ```go
 func EachRight[S ~[]T, T any](slice S, iteratee func(value T, index int, slice S))
 ```
-
 EachRight invokes the given `iteratee` for every element in the slice, from
 right to left.
 
 #### func  Every
 
 ```go
-func Every[S ~[]T, T any](slice S, predicate func(value T, index int, array S) bool) bool
+func Every[S ~[]T, T any](slice S, predicate func(value T, index int, slice S) bool) bool
 ```
 Every returns true if the given `predicate` returns true for every element of
 the given slice.
@@ -145,7 +142,7 @@ including `end`.
 func Filter[S ~[]T, T any](slice S, predicate func(value T, index int, slice S) bool) S
 ```
 
-Filter iterates over the elements of `slice`, returning an array of all elements
+Filter iterates over the elements of `slice`, returning a slice of all elements
 that the `predicate` returns true for.
 
 #### func  Find
@@ -153,7 +150,6 @@ that the `predicate` returns true for.
 ```go
 func Find[S ~[]T, T any](slice S, predicate func(value T, index int, slice S) bool) (result T)
 ```
-
 Find iterates over the elements of `slice`, returning the first element that
 `predicate` returns true for.
 
@@ -178,7 +174,6 @@ returns true.
 ```go
 func FlatMap[S ~[]T, T any, U any](slice S, iteratee func(value T, index int, slice S) []U) []U
 ```
-
 FlatMap creates a flattened slice of values by running each element in `slice`
 through `iteratee` and flattening the mapped results.
 
@@ -187,18 +182,16 @@ through `iteratee` and flattening the mapped results.
 ```go
 func GroupBy[S ~[]T, T any, U comparable](slice S, iteratee func(T) U) map[U]S
 ```
-
 GroupBy creates a map composed of keys generated from the results of running
 each element of `slice` through `iteratee`. The order of the grouped values is
 determined by the order that they occur in `slice`. The corresponding value of
-each key is an array of elements responsible for generating the key.
+each key is a slice of elements responsible for generating the key.
 
 #### func  Includes
 
 ```go
 func Includes[S ~[]T, T comparable](slice S, value T) bool
 ```
-
 Includes checks if `value` is in `slice`. Equality is checked with `==`.
 
 #### func  IndexOf
@@ -206,7 +199,6 @@ Includes checks if `value` is in `slice`. Equality is checked with `==`.
 ```go
 func IndexOf[S ~[]T, T comparable](slice S, value T) int
 ```
-
 IndexOf returns the index at which the first occurrence of `value` is found in
 `slice`. Returns `-1` if not found.
 
@@ -215,16 +207,14 @@ IndexOf returns the index at which the first occurrence of `value` is found in
 ```go
 func Intersection[S ~[]T, T comparable](slices ...S) S
 ```
-
 Intersection returns a slice of unique values that are included in all given
 slices. The order of the result values are determined by the first slice.
 
 #### func  IntersectionBy
 
 ```go
-func IntersectionBy[S ~[]T, T any, U comparable](iteratee func(T) U, arrays ...S) S
+func IntersectionBy[S ~[]T, T any, U comparable](iteratee func(T) U, others ...S) S
 ```
-
 IntersectionBy returns a slice of unique values that are included in all given
 slices, with comparison happening on the result of the `iteratee` function. The
 order of the result values are determined by the first slice.
@@ -234,7 +224,6 @@ order of the result values are determined by the first slice.
 ```go
 func IntersectionWith[S ~[]T, T any](comparator func(T, T) bool, slices ...S) S
 ```
-
 IntersectionWith returns a slice of unique values that are included in all given
 slice, with comparison happening inside the given `comparator`. The order of the
 result values are determined by the first slice.
@@ -244,7 +233,6 @@ result values are determined by the first slice.
 ```go
 func Join[S ~[]T, T any](slice S, separator string) string
 ```
-
 Join concatenates all the elements of the slice into a string separated by
 `separator`. `fmt.Sprint` is used for to get the string representation of the
 given value, so mixed types are possible with `[]any`.
@@ -254,7 +242,6 @@ given value, so mixed types are possible with `[]any`.
 ```go
 func KeyBy[S ~[]T, T any, U comparable](slice S, iteratee func(T) U) map[U]T
 ```
-
 KeyBy creates a map composed of keys generated from the results of running each
 element of `slice` through `iteratee`. The corresponding value of each key is
 the last element responsible for generating the key.
@@ -264,7 +251,6 @@ the last element responsible for generating the key.
 ```go
 func LastIndexOf[S ~[]T, T comparable](slice S, value T) int
 ```
-
 LastIndexOf returns the index at which the last occurrence of `value` is found
 in `slice`. Returns `-1` if not found.
 
@@ -273,7 +259,6 @@ in `slice`. Returns `-1` if not found.
 ```go
 func Map[S ~[]T, T any, U any](slice S, iteratee func(T) U) []U
 ```
-
 Map creates a slice of values by running each element in `slice` through
 `iteratee`.
 
@@ -282,7 +267,6 @@ Map creates a slice of values by running each element in `slice` through
 ```go
 func Nth[S ~[]T, T any](slice S, n int) T
 ```
-
 Nth gets the element at index `n` of the `slice`. If `n` is negative, the nth
 element from the end is returned.
 
@@ -298,47 +282,50 @@ Partition creates two slices, the first of which contains elements that
 #### func  Pull
 
 ```go
-func Pull[T comparable](array []T, values ...T) []T
+func Pull[S ~[]T, T comparable](slice S, values ...T) S
 ```
 
-Pull returns a slice of `slice` without all the given `values`.
+Pull returns a new slice without all the given `values`.
 
 #### func  PullAll
 
 ```go
-func PullAll[T comparable](array []T, values []T) []T
+func PullAll[S ~[]T, T comparable](slice S, values []T) S
 ```
-PullAll returns a slice of `array` without the items in `values`.
+
+PullAll returns a new slice without the items in `values`.
 
 #### func  PullAllBy
 
 ```go
-func PullAllBy[T any, U comparable](array []T, values []T, iteratee func(T) U) []T
+func PullAllBy[S ~[]T, T any, U comparable](slice S, values []T, iteratee func(T) U) S
 ```
-PullAllBy returns a slice of `array` without the items in `values`, with the
-comparison made by passing both values through the `iteratee` function.
+
+PullAllBy returns a new slice without the items in `values`, with the comparison
+made by passing both values through the `iteratee` function.
 
 #### func  PullAllWith
 
 ```go
-func PullAllWith[T any](array []T, values []T, comparator func(T, T) bool) []T
+func PullAllWith[S ~[]T, T any](slice S, values []T, comparator func(T, T) bool) S
 ```
-PullAllWith returns a slice of `array` without the items in `values`, with the
+
+PullAllWith returns a new slice without the items in `values`, with the
 comparison made using the given `comparator`.
 
 #### func  PullAt
 
 ```go
-func PullAt[T comparable](array []T, indexes ...int) []T
+func PullAt[T comparable](slice []T, indexes ...int) []T
 ```
-PullAt returns a slice of `array` without the items at the given indexes.
+
+PullAt returns a new slice without the items at the given indexes.
 
 #### func  Reduce
 
 ```go
 func Reduce[S ~[]T, T any, U any](slice S, iteratee func(acc U, value T, index int, slice S) U, accumulator U) U
 ```
-
 Reduce reduces `slice` to a value which is the accumulated result of running
 each element in `slice` through `iteratee`, where each successive invocation is
 supplied the return value of the previous one. `accumulator` is used as the
@@ -349,7 +336,6 @@ initial value.
 ```go
 func ReduceRight[S ~[]T, T any, U any](slice S, iteratee func(acc U, value T, index int, slice S) U, accumulator U) U
 ```
-
 ReduceRight reduces `slice` to a value which is the accumulated result of
 running each element in `slice`, from right to left, through `iteratee`, where
 each successive invocation is supplied the return value of the previous one.
@@ -360,7 +346,6 @@ each successive invocation is supplied the return value of the previous one.
 ```go
 func Reject[S ~[]T, T any](slice S, predicate func(value T, index int, slice S) bool) S
 ```
-
 Reject iterates over the elements of `slice`, returning a new slice of the
 elements for which `predicate` returns false.
 
@@ -369,7 +354,6 @@ elements for which `predicate` returns false.
 ```go
 func Remove[S ~[]T, T any](slice S, predicate func(value T, index int, slice S) bool) S
 ```
-
 Remove returns a new slice without the elements for which the `predicate`
 returns `true`.
 
@@ -378,7 +362,6 @@ returns `true`.
 ```go
 func Reverse[S ~[]T, T any](slice S) S
 ```
-
 Reverse return the reverse of `slice`: with the first element last, the second
 element second-to-last, and so on.
 
@@ -395,7 +378,6 @@ given slice.
 ```go
 func SortedIndex[S ~[]T, T constraints.Ordered](slice S, value T) int
 ```
-
 SortedIndex uses a binary search to determine the lowest index at which `value`
 should be inserted into `slice` in order to maintain its sort order.
 
@@ -404,7 +386,6 @@ should be inserted into `slice` in order to maintain its sort order.
 ```go
 func SortedIndexBy[S ~[]T, T any, U constraints.Ordered](slice S, value T, iteratee func(T) U) int
 ```
-
 SortedIndexBy uses a binary search to determine the lowest index at which
 `value` should be inserted into `slice` in order to maintain its sort order,
 with the `iteratee` function used to compute sort ranking.
@@ -414,7 +395,6 @@ with the `iteratee` function used to compute sort ranking.
 ```go
 func SortedIndexOf[S ~[]T, T constraints.Ordered](slice S, value T) int
 ```
-
 SortedIndexOf performs a binary search on a sorted `slice` to find the given
 `value`. Returns -1 if not found.
 
@@ -423,7 +403,6 @@ SortedIndexOf performs a binary search on a sorted `slice` to find the given
 ```go
 func SortedLastIndex[S ~[]T, T constraints.Ordered](slice S, value T) int
 ```
-
 SortedLastIndex returns the highest index at which `value` should be inserted
 into the sorted `slice` to maintain its sort order.
 
@@ -432,7 +411,6 @@ into the sorted `slice` to maintain its sort order.
 ```go
 func SortedLastIndexBy[S ~[]T, T any, U constraints.Ordered](slice S, value T, iteratee func(T) U) int
 ```
-
 SortedLastIndexBy returns the highest index at which `value` should be inserted
 into the sorted `slice` to maintain its sort order, with comparisons made on the
 result of passing all values through `iteratee`.
@@ -442,7 +420,6 @@ result of passing all values through `iteratee`.
 ```go
 func SortedLastIndexOf[S ~[]T, T constraints.Ordered](slice S, value T) int
 ```
-
 SortedLastIndexOf returns the highest index at which the `value` is present in
 the sorted `slice`.
 
@@ -451,7 +428,6 @@ the sorted `slice`.
 ```go
 func Take[S ~[]T, T any](slice S, n int) S
 ```
-
 Take returns a new slice with `n` elements taken from the beginning.
 
 #### func  TakeRight
@@ -459,7 +435,6 @@ Take returns a new slice with `n` elements taken from the beginning.
 ```go
 func TakeRight[S ~[]T, T any](slice S, n int) S
 ```
-
 TakeRight returns a new slice with `n` elements taken from the end.
 
 #### func  TakeRightWhile
@@ -467,7 +442,6 @@ TakeRight returns a new slice with `n` elements taken from the end.
 ```go
 func TakeRightWhile[S ~[]T, T any](slice S, predicate func(value T, index int, slice S) bool) S
 ```
-
 TakeRightWhile creates a slice of elements taken from the end of `slice`.
 Elements are taken until the `predicate` returns false.
 
@@ -476,7 +450,6 @@ Elements are taken until the `predicate` returns false.
 ```go
 func TakeWhile[S ~[]T, T any](slice S, predicate func(value T, index int, slice S) bool) S
 ```
-
 TakeWhile creates a slice of elements taken from the beginning of `slice`.
 Elements are taken until the `predicate` returns false.
 
@@ -485,7 +458,6 @@ Elements are taken until the `predicate` returns false.
 ```go
 func Union[S ~[]T, T comparable](slices ...S) S
 ```
-
 Union creates a new slice, in order, of unique values of all the given slices.
 Uses `==` for equality checks.
 
@@ -494,7 +466,6 @@ Uses `==` for equality checks.
 ```go
 func UnionBy[S ~[]T, T any, U comparable](iteratee func(T) U, slices ...S) S
 ```
-
 UnionBy creates a new slice, in order, of unique values of all the given slices.
 Uses the result of the given `iteratee` to check equality.
 
@@ -503,7 +474,6 @@ Uses the result of the given `iteratee` to check equality.
 ```go
 func UnionWith[S ~[]T, T any](comparator func(T, T) bool, sliceList ...S) S
 ```
-
 UnionWith creates a new slice, in order, of unique values of all the given
 slices. Uses the given `comparator` to check equality between elements.
 
@@ -546,7 +516,6 @@ checks.
 ```go
 func Xor[S ~[]T, T comparable](slices ...S) S
 ```
-
 Xor returns a new slice of unique values that is the symmetric difference
 (elements which are any of the sets but not in their intersection) of the given
 slices. The order of result values is determined by the order they occur in the
@@ -560,7 +529,7 @@ func XorBy[S ~[]T, T any, U comparable](iteratee func(T) U, slices ...S) S
 
 XorBy returns a new slice of unique values that is the symmetric difference
 (elements which are any of the sets but not in their intersection) of the given
-arrays. The order of result values is determined by the order they occur in the
+slices. The order of result values is determined by the order they occur in the
 slices. Equality is determined by passing elements through the given `iteratee`.
 
 #### func  XorWith
@@ -568,7 +537,6 @@ slices. Equality is determined by passing elements through the given `iteratee`.
 ```go
 func XorWith[S ~[]T, T any](comparator func(T, T) bool, sliceList ...S) S
 ```
-
 XorWith returns a new slice of unique values that is the symmetric difference
 (elements which are any of the sets but not in their intersection) of the given
 slices. The order of result values is determined by the order they occur in the

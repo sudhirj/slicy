@@ -8,8 +8,8 @@ import (
 	"strings"
 )
 
-// Chunk splits the given array into groups the length of `chunkSize`.
-// If the array cannot be split evenly, the last chunk will have the remaining elements.
+// Chunk splits the given slice into smaller slices, each the length of `chunkSize`.
+// If the slice cannot be split evenly, the last chunk will have the remaining elements.
 func Chunk[S ~[]T, T any](slice S, chunkSize int) []S {
 	chunks := int(math.Ceil(float64(len(slice)) / float64(chunkSize)))
 	output := make([]S, chunks)
@@ -42,8 +42,8 @@ func Difference[S ~[]T, T comparable](slice S, others ...S) S {
 // DifferenceBy returns a list of items present in `slice` that are *not* present in any of
 // the `others` slices, with the comparison made by passing items into the `iteratee` function
 // and checking `==` on the result. This allows changing the way the item is viewed for comparison.
-func DifferenceBy[S ~[]T, T any, U comparable](array S, iteratee func(T) U, others ...S) S {
-	return DifferenceWith(array, func(x, y T) bool { return iteratee(x) == iteratee(y) }, others...)
+func DifferenceBy[S ~[]T, T any, U comparable](slice S, iteratee func(T) U, others ...S) S {
+	return DifferenceWith(slice, func(x, y T) bool { return iteratee(x) == iteratee(y) }, others...)
 }
 
 // DifferenceWith returns a slice of items present in `slice` that are *not* present in any of
@@ -150,8 +150,8 @@ func Intersection[S ~[]T, T comparable](slices ...S) S {
 // IntersectionBy returns a slice of unique values that are included in all given slices,
 // with comparison happening on the result of the `iteratee` function. The order of the result
 // values are determined by the first slice.
-func IntersectionBy[S ~[]T, T any, U comparable](iteratee func(T) U, arrays ...S) S {
-	return IntersectionWith(func(x, y T) bool { return iteratee(x) == iteratee(y) }, arrays...)
+func IntersectionBy[S ~[]T, T any, U comparable](iteratee func(T) U, others ...S) S {
+	return IntersectionWith(func(x, y T) bool { return iteratee(x) == iteratee(y) }, others...)
 }
 
 // IntersectionWith returns a slice of unique values that are included in all given slice,
@@ -205,27 +205,27 @@ func Nth[S ~[]T, T any](slice S, n int) T {
 	return slice[n]
 }
 
-// Pull returns a slice of `slice` without all the given `values`.
-func Pull[T comparable](array []T, values ...T) []T {
-	return PullAll(array, values)
+// Pull returns a new slice without all the given `values`.
+func Pull[S ~[]T, T comparable](slice S, values ...T) S {
+	return PullAll(slice, values)
 }
 
-// PullAll returns a slice of `array` without the items in `values`.
-func PullAll[T comparable](array []T, values []T) []T {
-	return PullAllWith(array, values, func(x, y T) bool { return x == y })
+// PullAll returns a new slice without the items in `values`.
+func PullAll[S ~[]T, T comparable](slice S, values []T) S {
+	return PullAllWith(slice, values, func(x, y T) bool { return x == y })
 }
 
-// PullAllBy returns a slice of `array` without the items in `values`, with the
+// PullAllBy returns a new slice without the items in `values`, with the
 // comparison made by passing both values through the `iteratee` function.
-func PullAllBy[T any, U comparable](array []T, values []T, iteratee func(T) U) []T {
-	return PullAllWith(array, values, func(x, y T) bool { return iteratee(x) == iteratee(y) })
+func PullAllBy[S ~[]T, T any, U comparable](slice S, values []T, iteratee func(T) U) S {
+	return PullAllWith(slice, values, func(x, y T) bool { return iteratee(x) == iteratee(y) })
 }
 
-// PullAllWith returns a slice of `array` without the items in `values`, with the
+// PullAllWith returns a new slice without the items in `values`, with the
 // comparison made using the given `comparator`.
-func PullAllWith[T any](array []T, values []T, comparator func(T, T) bool) []T {
-	output := make([]T, 0, len(array)-len(values))
-	for _, v := range array {
+func PullAllWith[S ~[]T, T any](slice S, values []T, comparator func(T, T) bool) S {
+	output := make([]T, 0, len(slice)-len(values))
+	for _, v := range slice {
 		if FindIndex(values, func(x T) bool { return comparator(x, v) }) == -1 {
 			output = append(output, v)
 		}
@@ -233,12 +233,12 @@ func PullAllWith[T any](array []T, values []T, comparator func(T, T) bool) []T {
 	return output
 }
 
-// PullAt returns a slice of `array` without the items at the given indexes.
-func PullAt[T comparable](array []T, indexes ...int) []T {
-	output := make([]T, 0, len(array)-len(indexes))
-	for i := range array {
+// PullAt returns a new slice without the items at the given indexes.
+func PullAt[T comparable](slice []T, indexes ...int) []T {
+	output := make([]T, 0, len(slice)-len(indexes))
+	for i := range slice {
 		if IndexOf(indexes, i) == -1 {
-			output = append(output, array[i])
+			output = append(output, slice[i])
 		}
 	}
 	return output
@@ -438,7 +438,7 @@ func Xor[S ~[]T, T comparable](slices ...S) S {
 }
 
 // XorBy returns a new slice of unique values that is the symmetric difference
-// (elements which are any of the sets but not in their intersection) of the given arrays.
+// (elements which are any of the sets but not in their intersection) of the given slices.
 // The order of result values is determined by the order they occur in the slices.
 // Equality is determined by passing elements through the given `iteratee`.
 func XorBy[S ~[]T, T any, U comparable](iteratee func(T) U, slices ...S) S {
@@ -490,7 +490,7 @@ func EachRight[S ~[]T, T any](slice S, iteratee func(value T, index int, slice S
 
 // Every returns true if the given `predicate` returns true for every element of the given
 // slice.
-func Every[S ~[]T, T any](slice S, predicate func(value T, index int, array S) bool) bool {
+func Every[S ~[]T, T any](slice S, predicate func(value T, index int, slice S) bool) bool {
 	for i, item := range slice {
 		if !predicate(item, i, slice) {
 			return false
@@ -501,8 +501,8 @@ func Every[S ~[]T, T any](slice S, predicate func(value T, index int, array S) b
 
 // All returns true if the given `predicate` returns true for every element of the given
 // slice.
-func All[T any](array []T, predicate func(value T, index int, array []T) bool) bool {
-	return Every(array, predicate)
+func All[T any](slice []T, predicate func(value T, index int, slice []T) bool) bool {
+	return Every(slice, predicate)
 }
 
 // Some return true if the given `predicate` returns true for any element of the given slice.
@@ -520,7 +520,7 @@ func Any[S ~[]T, T any](slice S, predicate func(value T, index int, slice S) boo
 	return Some(slice, predicate)
 }
 
-// Filter iterates over the elements of `slice`, returning an array of all elements
+// Filter iterates over the elements of `slice`, returning a slice of all elements
 // that the `predicate` returns true for.
 func Filter[S ~[]T, T any](slice S, predicate func(value T, index int, slice S) bool) S {
 	output := make([]T, 0)
@@ -555,7 +555,7 @@ func FlatMap[S ~[]T, T any, U any](slice S, iteratee func(value T, index int, sl
 
 // GroupBy creates a map composed of keys generated from the results of running each element
 // of `slice` through `iteratee`. The order of the grouped values is determined by the order
-// that they occur in `slice`. The corresponding value of each key is an array of elements
+// that they occur in `slice`. The corresponding value of each key is a slice of elements
 // responsible for generating the key.
 func GroupBy[S ~[]T, T any, U comparable](slice S, iteratee func(T) U) map[U]S {
 	output := make(map[U]S)
