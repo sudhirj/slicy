@@ -310,7 +310,7 @@ comparison made using the given `comparator`.
 #### func  PullAt
 
 ```go
-func PullAt[T comparable](slice []T, indexes ...int) []T
+func PullAt[S ~[]T, T comparable](slice S, indexes ...int) S
 ```
 PullAt returns a new slice without the items at the given indexes.
 

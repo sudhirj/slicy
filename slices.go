@@ -234,7 +234,7 @@ func PullAllWith[S ~[]T, T any](slice S, values []T, comparator func(T, T) bool)
 }
 
 // PullAt returns a new slice without the items at the given indexes.
-func PullAt[T comparable](slice []T, indexes ...int) []T {
+func PullAt[S ~[]T, T comparable](slice S, indexes ...int) S {
 	output := make([]T, 0, len(slice)-len(indexes))
 	for i := range slice {
 		if IndexOf(indexes, i) == -1 {
@@ -523,7 +523,7 @@ func Any[S ~[]T, T any](slice S, predicate func(value T, index int, slice S) boo
 // Filter iterates over the elements of `slice`, returning a slice of all elements
 // that the `predicate` returns true for.
 func Filter[S ~[]T, T any](slice S, predicate func(value T, index int, slice S) bool) S {
-	output := make([]T, 0)
+	output := make(S, 0)
 	for i, item := range slice {
 		if predicate(item, i, slice) {
 			output = append(output, item)
@@ -597,8 +597,8 @@ func Map[S ~[]T, T any, U any](slice S, iteratee func(T) U) []U {
 // `predicate` returns true for, with the second containing elements for which
 // `predicate` returns false.
 func Partition[S ~[]T, T any](slice S, predicate func(T) bool) (truths S, falsehoods S) {
-	truths = make([]T, 0)
-	falsehoods = make([]T, 0)
+	truths = make(S, 0)
+	falsehoods = make(S, 0)
 	for _, item := range slice {
 		if predicate(item) {
 			truths = append(truths, item)
